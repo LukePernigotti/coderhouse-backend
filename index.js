@@ -1,21 +1,17 @@
 const express = require('express');
-const { Contenedor } = require('./Container');
+const apiRoutes = require('./routers/app.routers');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const products = new Contenedor('productos.txt');
 
-app.get('/productos', (req, res) => {
-    products.getAll().then((result) => {
-      res.json(result);
-   })
-})
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use('/api', apiRoutes);
 
-app.get('/productoRandom', (req, res) => {
-    products.getAll().then((result) => {
-        const randomNumber = Math.floor((Math.random() * result.length));
-        res.send(result[randomNumber]);
-    })
+app.get('/', (req, res) => {
+    return res.sendFile(path.resolve(__dirname, './public/index.html'));
 })
 
 const connectedServer = app.listen(PORT, () => {

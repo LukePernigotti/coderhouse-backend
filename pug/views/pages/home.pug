@@ -1,0 +1,33 @@
+extends ../layouts/main
+
+block body
+
+    section.container
+        .row
+            .col-12
+                h1(class="mb-3 text-center") Welcome (pug)
+
+        .row
+            div(class="col-12 col-md-6 offset-md-3 mb-3")
+                form(action="/productos/" method="post" class="bg-info bg-gradient rounded p-4")
+                    h2(class="mb-3 text-center text-white") Add product
+
+                    div(class="form-floating mb-3")
+                        input(type="text" name="title" id="add-title" class="form-control" placeholder="Pencil")
+                        label(for="add-title") Title
+                    
+                    div(class="form-floating mb-3")
+                        input(type="text" name="price" id="add-price" class="form-control" placeholder="100")
+                        label(for="add-price") Price
+
+                    div(class="form-floating mb-3")
+                        input(type="text" name="thumbnail" id="add-thumbnail" class="form-control" placeholder="https://example.com/123")
+                        label(for="add-thumbnail") Thumbnail URL
+
+                    button(type="submit" class="w-100 btn btn-lg btn-primary") Submit
+                
+                if success
+                    p(class="h4 text-success mt-3") Product added
+
+        div(class="col-12 col-md-6 offset-md-3")
+            a(href="/productos" class="w-100 btn btn-lg btn-dark") View all products

@@ -1,0 +1,35 @@
+<section class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-3 text-center">Welcome (hbs)</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3 mb-3">
+            <form action="/productos/" method="post" class="bg-info bg-gradient rounded p-4">
+                <h2 class="mb-3 text-center text-white">Add product</h2>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="title" id="add-title" class="form-control" placeholder="Pencil" />
+                    <label for="add-title">Title</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" name="price" id="add-price" class="form-control" placeholder="100" />
+                    <label for="add-price">Price</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" name="thumbnail" id="add-thumbnail" class="form-control" placeholder="https://example.com/123" />
+                    <label for="add-thumbnail">Thumbnail URL</label>
+                </div>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+            </form>
+            {{#if success}}
+                <p class="h4 text-success mt-3">Product added</p>
+            {{/if}}
+        </div>
+        <div class="col-12 col-md-6 offset-md-3">
+            <a href="/productos" class="w-100 btn btn-lg btn-dark">View all products</a>
+        </div>
+    </div>
+</section>

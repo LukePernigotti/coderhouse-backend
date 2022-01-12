@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "start-dev": "nodemon index.js"
+    "start-hbs": "node hbs/index.js",
+    "start-pug": "node pug/index.js",
+    "start-ejs": "node ejs/index.js"
   },
   "author": "Lucas Pernigotti",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "bootstrap": "^5.1.3",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-handlebars": "^6.0.2",
+    "pug": "^3.0.2"
   }
 }

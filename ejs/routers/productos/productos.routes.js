@@ -1,5 +1,5 @@
 const express = require('express');
-const { Products } = require('../../Products');
+const { Products } = require('../../../Products');
 
 const products = new Products();
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     const response = products.getAll();
     if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
+    return res.render('main', { body: '../pages/products', products: response});
 })
 
 router.get('/:id', (req, res) => {
@@ -23,8 +23,10 @@ router.post('/', (req, res) => {
         return res.status(400).send(`El cuerpo tiene un formato incorrecto: ${req.body}`)
     }
 
-    const product = products.add({ title, price, thumbnail });
-    return res.json(product);
+    // const product = products.add({ title, price, thumbnail });
+    products.add({ title, price, thumbnail });
+
+    return res.render('main', { body: '../pages/home', data: { success: true }});
 })
 
 router.put('/:id', (req, res) => {

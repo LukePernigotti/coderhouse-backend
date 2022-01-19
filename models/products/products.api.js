@@ -1,4 +1,4 @@
-class Products {
+class ProductsApi {
     constructor() {
         this.products = [
             {
@@ -69,6 +69,4 @@ class Products {
     }
 }
 
-module.exports = {
-    Products
-};
+module.exports = ProductsApi;

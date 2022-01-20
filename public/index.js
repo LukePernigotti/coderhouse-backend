@@ -4,7 +4,8 @@ const socket = io();
 
 class Chat {
     constructor(wrapper) {
-        this.username = wrapper.getElementsByClassName('js-chat__username')[0];
+        this.wrapper = wrapper;
+        this.email = wrapper.getElementsByClassName('js-chat__email')[0];
         this.messages = wrapper.getElementsByClassName('js-chat__messages')[0];
         this.textarea = wrapper.getElementsByClassName('js-chat__textarea')[0];
         this.sendButton = wrapper.getElementsByClassName('js-chat__send')[0];
@@ -13,25 +14,48 @@ class Chat {
     }
     
     initChat() {
-        console.log('initChat', this.textarea);
-        this.sendButton.addEventListener('click', this.sendMessage.bind(this));
+        this.sendButton.addEventListener('click', (event) => {
+            if (this.email.value) {
+                this.sendMessage(event);
+            }
+        });
+
+        socket.on('chat-server:loadMessages', messagesArray => {
+            this.renderMessages(messagesArray);
+        })
 
         socket.on('chat-server:newMessage', messagesArray => {
-            const messageMarkup = messagesArray.map(messageData => (
-                `<p class="mb-1"><b>${messageData.username}:</b> ${messageData.message}</p>
-                `
-            ));
-
-            this.messages.innerHTML = messageMarkup.join(' ');
+            this.renderMessages(messagesArray);
         })
+
     }
 
-    sendMessage() {
+    renderMessages(messagesArray) {
+        const messageMarkup = messagesArray.map(messageData => {
+            const { email, message } = messageData;
+            const date = new Date(messageData.date);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth()+1).toString();
+            const year = date.getFullYear().toString();
+            const hours = date.getHours().toString();
+            const minutes = date.getMinutes().toString();
+            const seconds = date.getSeconds().toString();
+            const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
+            return `<p class="mb-1"><b class="text-primary">${email}</b> <span style="color: brown">${formattedDate}</span> : <i class="text-success">${message}</i></p>
+            `
+        });
+
+        this.messages.innerHTML = messageMarkup.join(' ');
+    }
+
+    sendMessage(event) {
+        event.preventDefault();
+        
         const messageData = {
-            username: this.username.value,
+            email: this.email.value,
             message: this.textarea.value,
+            date: new Date()
         }
-        console.log('send message');
 
         socket.emit('chat-client:newMessage', messageData);
     }
@@ -46,27 +70,36 @@ if (chat) {
 class ProductsTable {
     constructor(table) {
         this.tbody = table.getElementsByClassName('js-products-table__body')[0];
-        console.log('this.tbody', this.tbody);
         this.initProductsTable();
     }
 
     initProductsTable() {
-        socket.on('products-server:addProduct', product => {
-            console.log('products-server:addProduct');
-            const { id, title, price, thumbnail } = product;
-            const markup = (
-            `<th>${id}</th>
-            <td>${title}</td>
-            <td>$${price}</td>
-            <td><img src="${thumbnail}" alt="${title}" width="20" height="20"/></td>
-            <td><a href="/products/${id}" class="w-100 btn btn-sm btn-primary">View</a></td>`
-            );
+        fetch('/products')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(product => {
+                    this.renderRows(product)
+                });
+            });
 
-            const tr = document.createElement('tr');
-            tr.innerHTML = markup;
-            console.log(tr);
-            this.tbody.appendChild(tr);
+        socket.on('products-server:addProduct', product => {
+            this.renderRows(product);
         });
+    }
+
+    renderRows(product) {
+        const { id, title, price, thumbnail } = product;
+        const markup = (
+        `<th>${id}</th>
+        <td>${title}</td>
+        <td>$${price}</td>
+        <td><img src="${thumbnail}" alt="${title}" width="20" height="20"/></td>
+        <td><a href="/products/${id}" class="w-100 btn btn-sm btn-primary">View</a></td>`
+        );
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = markup;
+        this.tbody.appendChild(tr);
     }
 }
 

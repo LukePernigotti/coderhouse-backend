@@ -3,18 +3,20 @@ const { ProductsApi } = require('../models/index');
 const express = require('express');
 const { Server: IOServer } = require('socket.io');
 const { Server: HttpServer } = require('http');
+const chatMessagesArray = require('../models/chat');
 
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
 const products = new ProductsApi();
-const chatMessagesArray = [];
+
 
 const getAllProductsController = (req, res) => {
     const response = products.getAll();
     if (response.error) return res.status(404).send(response.error);
-    return res.render('main', { body: '../pages/products', data: { products: response }});
+    return res.json(response);
+    // return res.render('products', { data: { products: response }});
 };
 
 const getProductByIdController = (req, res) => {
@@ -34,8 +36,7 @@ const addProductController = (req, res) => {
 
     io.sockets.emit('products-server:addProduct', product);
 
-    return res.render('main', { 
-        body: '../pages/home', 
+    return res.render('home', { 
         data: { 
             success: true, 
             products: products.getAll(), 

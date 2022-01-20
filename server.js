@@ -1,6 +1,9 @@
 const express = require('express');
+const path = require('path');
 const apiRoutes = require('./routers/app.routers');
-const { products, httpServer, io, app, chatMessagesArray } = require('./controllers/products.controller');
+const { products, httpServer, io, app } = require('./controllers/products.controller');
+const chatMessagesArray = require('./models/chat');
+const { engine } = require('express-handlebars');
 
 const PORT = process.env.PORT || 8080;
 
@@ -13,11 +16,23 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use(express.static('./public'));
 
 // Templates Engines
-app.set('view engine', 'ejs');
-app.set('views', './views/layouts');
+app.engine('handlebars', engine({
+    extname: 'hbs',
+    defaultLayout: 'main.hbs',
+    layoutsDir: path.resolve(__dirname, './views/layouts'),
+    partialsDir: path.resolve(__dirname, './views/partials')
+}))
+
+app.set('view engine', 'handlebars');
+app.set('views', './views/pages');
 
 app.get('/', (req, res) => {
-    return res.render('main', { body: '../pages/home', data: { products: products.getAll(), chatMessagesArray }});
+    return res.render('home', {
+        data: { 
+            products: products.getAll(), 
+            chatMessagesArray 
+        }
+    });
 })
 
 httpServer.listen(PORT, () => console.log(`Server ON - Port: ${PORT}`));

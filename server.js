@@ -1,13 +1,14 @@
 const express = require('express');
 const apiRoutes = require('./routers/app.routers');
-const { products, httpServer, io, app, chatMessagesArray } = require('./controllers/products.controller');
+const { products, IS_ADMIN } = require('./controllers/products.controller');
 
+const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/', apiRoutes);
+app.use('/api', apiRoutes);
 
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use(express.static('./public'));
@@ -16,21 +17,16 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 app.set('views', './views/layouts');
 
-app.get('/', (req, res) => {
-    return res.render('main', { body: '../pages/home', data: { products: products.getAll(), chatMessagesArray }});
+app.get('/', async (req, res) => {
+    return res.render('main', { body: '../pages/home', data: { products: await products.getAll(), isAdmin: IS_ADMIN }});
 })
 
-httpServer.listen(PORT, () => console.log(`Server ON - Port: ${PORT}`));
+app.use((req, res) => {
+    res.status(404).send({ error: 404, message: `Error 404. The path ${req._parsedOriginalUrl.path}, method ${req.method} is not implemented.`});
+});
 
-httpServer.on('error', (error) => {
+app.listen(PORT, () => console.log(`Server ON - Port: ${PORT}`));
+
+app.on('error', (error) => {
     console.log(error.message);
-})
-
-io.on('connection', (socket) => {
-    io.sockets.emit('chat-server:loadMessages', chatMessagesArray);
-
-    socket.on('chat-client:newMessage', (message) => {
-        chatMessagesArray.push(message);
-        io.sockets.emit('chat-server:newMessage', chatMessagesArray);
-    })
 })

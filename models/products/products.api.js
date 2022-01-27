@@ -1,71 +1,79 @@
+const fs = require('fs/promises');
+
+const filePath = './models/products/';
+const fileName = 'products.txt'
+
 class ProductsApi {
-    constructor() {
-        this.products = [
-            {
-                "title": "Escuadra",
-                "price": 123.45,
-                "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-128.png",
-                "id": 1
-            },
-            {
-                "title": "Calculadora",
-                "price": 234.56,
-                "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-128.png",
-                "id": 2
-            },
-            {
-                "title": "Globo Terráqueo",
-                "price": 345.67,
-                "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-128.png",
-                "id": 3
-            }
-        ]
+    async getFileData() {
+        try {
+            const data = await fs.readFile(`${filePath}${fileName}`, 'utf-8');
+            return JSON.parse(data);
+        } catch(error) {
+            console.error('getFileData() error:', error.message);
+            return error;
+        }
+    }
+
+    async saveFileData(data) {
+        try {   
+            await fs.writeFile(`${filePath}${fileName}`, JSON.stringify(data, null, 2));
+            return data;
+        } catch(error) {
+            console.error('saveFileData() error:', error.message);
+            return error;
+        }
     }
     
-    getAll() {
-        if (this.products.length > 0) return this.products;
-        return { error: 'No hay productos' }
+    async getAll() {
+        const data = await this.getFileData();
+        if (data.products.length > 0) return data.products;
+        return { error: 'There are no products' }
     }
 
-    getById(id) {
-        const product = this.products.find(product => product.id === parseInt(id));
+    async get(id) {
+        const data = await this.getFileData();
+        const product = data.products.find(product => product.id === parseInt(id));
         if (product) return product;
-        return { error: 'Producto no encontrado' };
+        return { error: 'Product not found' };
     }
         
-    add(product) {
-        let lastId;
-        if (this.products.length > 0) {
-            lastId = this.products[this.products.length - 1].id;
-        } else {
-            lastId = 0;
-        }
-        product.id = lastId + 1;
-        this.products.push(product);
+    async add(product) {
+        const data = await this.getFileData();
+
+        product.id = ++data.lastId;
+        data.products.push(product);
+        await this.saveFileData(data);
         
         return product;
     }
 
-    updateById(id, { title, price, thumbnail }) {
-        if (!title && !price && !thumbnail ) return {error: 'Faltan agregar los datos'}
+    async update(id, { title, description, price, thumbnail, stock }) {
+        if (!title && !description && !price && !stock && !thumbnail )
+            return {error: 'Data not provided. Add a title, description, price, thumbnail or stock.'}
 
-        const product = this.products.find(product => product.id === parseInt(id));
-
-        if (!product) return { error: 'Producto no encontrado' };
+        const data = await this.getFileData();
+        const product = data.products.find(product => product.id === parseInt(id));
+        if (!product) return { error: 'Product not found' };
 
         if (title) product.title = title;
+        if (description) product.description = description;
         if (price) product.price = price;
+        if (stock) product.stock = stock;
         if (thumbnail) product.thumbnail = thumbnail;
 
+        await this.saveFileData(data);
         return product;
     }
 
-    deleteById(id) {
-        const index = this.products.findIndex(product => product.id === parseInt(id));
-        if (index < 0) return { error: 'Producto no encontrado' };
+    async delete(id) {
+        const data = await this.getFileData();
+        const index = data.products.findIndex(product => product.id === parseInt(id));
+        if (index < 0) return { error: 'Product not found' };
 
-        this.products.splice(index, 1);
-        return this.products;
+        data.products.splice(index, 1);
+
+        await this.saveFileData(data);
+        return data.products;
     }
 }
 

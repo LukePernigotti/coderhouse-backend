@@ -1,42 +1,61 @@
 <% var data = data || {} %>
 
-<section class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="mb-3 text-center">Welcome</h1>
-        </div>
+<section class="ec-grid">
+    <div class="col-span-full">
+        <h1 class="mb-3 text-center">Welcome</h1>
     </div>
+    
+    <%- include('../partials/productCards.ejs') %>
+    <% if (data.isAdmin) { %> 
+        <form action="/api/products" method="post" class="col-span-full rounded p-4 flex flex-col">
+            <h2 class="mb-3 text-center text-2xl">Add product</h2>
+    
+            <div class="flex mb-3">
+                <label class="mr-3" for="title">Title:</label>
+                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="title" id="title" />
+            </div>
+            <div class="flex mb-3">
+                <label class="mr-3" for="description">Description:</label>
+                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="description" id="description" />
+            </div>
+            <div class="flex mb-3">
+                <label class="mr-3" for="price">Price:</label>
+                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="price" id="price" />
+            </div>
+            <div class="flex mb-3">
+                <label class="mr-3" for="stock">Stock:</label>
+                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="stock" id="stock" />
+            </div>
+            <div class="flex mb-3">
+                <label class="mr-3" for="thumbnail">Thumbnail:</label>
+                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="thumbnail" id="thumbnail" />
+            </div>
+            <div class="flex mb-3">
+                <label class="mr-3" for="code">Code:</label>
+                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="code" id="code" />
+            </div>
+            <div>
+                <button type="submit" class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600">Submit</button>
+            </div>
+        </form>
+    <% } %>
 
-    <div class="row">
-        <div class="col-12 col-md-6 mb-3">
-            <form action="/products/" method="post" class="bg-info bg-gradient rounded p-4">
-                <h2 class="mb-3 text-center text-white">Add product</h2>
+    <!-- <form action="/products/" method="post" class="bg bg-gradient rounded p-4">
+        <h2 class="mb-3 text-center text-white">Add product</h2>
 
-                <div class="form-floating mb-3">
-                    <input type="text" name="title" id="add-title" class="form-control" placeholder="Pencil" />
-                    <label for="add-title">Title</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" name="price" id="add-price" class="form-control" placeholder="100" />
-                    <label for="add-price">Price</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" name="thumbnail" id="add-thumbnail" class="form-control" placeholder="https://example.com/123" />
-                    <label for="add-thumbnail">Thumbnail URL</label>
-                </div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
-            </form>
-            <% if (data.success) { %> 
-                <p class="h4 text-success mt-3">Product added</p>
-            <% } %> 
-            
-            <a href="/products" class="w-100 btn btn-lg btn-dark">View all products</a>
-
-            <%- include('../partials/productsTable.ejs') %>
+        <div class="form-floating mb-3">
+            <input type="text" name="title" id="add-title" class="form-control" placeholder="Pencil" />
+            <label for="add-title">Title</label>
         </div>
-        <div class="col-12 col-md-6 mb-3">
-            <%- include('../partials/chat.ejs') %> 
+        <div class="form-floating mb-3">
+            <input type="text" name="price" id="add-price" class="form-control" placeholder="100" />
+            <label for="add-price">Price</label>
         </div>
-    </div>
+        <div class="form-floating mb-3">
+            <input type="text" name="thumbnail" id="add-thumbnail" class="form-control" placeholder="https://example.com/123" />
+            <label for="add-thumbnail">Thumbnail URL</label>
+        </div>
+        <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+    </form> -->
 
 </section>

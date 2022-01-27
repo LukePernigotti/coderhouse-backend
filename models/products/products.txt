@@ -1,0 +1,42 @@
+{
+  "lastId": 4,
+  "products": [
+    {
+      "title": "Clutch master",
+      "description": "This is a description",
+      "price": "323",
+      "stock": "5",
+      "thumbnail": "/images/clutch-master.webp",
+      "timestamp": 1642910648372,
+      "id": 1
+    },
+    {
+      "title": "Wheel cylinder",
+      "description": "This is a description",
+      "price": "123",
+      "stock": "3",
+      "thumbnail": "/images/wheel-cylinder.webp",
+      "timestamp": 1642919083596,
+      "id": 2
+    },
+    {
+      "title": "Sprinklers",
+      "description": "This is a description",
+      "price": "553",
+      "stock": "8",
+      "thumbnail": "/images/sprinklers.webp",
+      "timestamp": 1642965212646,
+      "id": 3
+    },
+    {
+      "title": "Car lights",
+      "description": "description",
+      "price": "123123",
+      "stock": "4",
+      "thumbnail": "/images/car-light.webp",
+      "timestamp": 1643241454638,
+      "code": "12",
+      "id": 4
+    }
+  ]
+}

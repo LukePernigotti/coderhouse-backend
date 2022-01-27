@@ -34,7 +34,7 @@ class ProductsApi {
         const data = await this.getFileData();
         const product = data.products.find(product => product.id === parseInt(id));
         if (product) return product;
-        return { error: 'Product not found' };
+        return { error: `Product with id ${id} not found` };
     }
         
     async add(product) {

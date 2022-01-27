@@ -7,35 +7,38 @@
       "price": "323",
       "stock": "5",
       "thumbnail": "/images/clutch-master.webp",
-      "timestamp": 1642910648372,
+      "timestamp": 1643252198831,
+      "code": "122",
       "id": 1
-    },
-    {
-      "title": "Wheel cylinder",
-      "description": "This is a description",
-      "price": "123",
-      "stock": "3",
-      "thumbnail": "/images/wheel-cylinder.webp",
-      "timestamp": 1642919083596,
-      "id": 2
     },
     {
       "title": "Sprinklers",
       "description": "This is a description",
-      "price": "553",
-      "stock": "8",
+      "price": "353",
+      "stock": "5",
       "thumbnail": "/images/sprinklers.webp",
-      "timestamp": 1642965212646,
-      "id": 3
+      "timestamp": 1643252232179,
+      "code": "1213",
+      "id": 2
     },
     {
       "title": "Car lights",
-      "description": "description",
-      "price": "123123",
-      "stock": "4",
+      "description": "This is a description",
+      "price": "213",
+      "stock": "32",
       "thumbnail": "/images/car-light.webp",
-      "timestamp": 1643241454638,
-      "code": "12",
+      "timestamp": 1643252257453,
+      "code": "1224",
+      "id": 3
+    },
+    {
+      "title": "Wheel cylinder",
+      "description": "This is a description",
+      "price": "293",
+      "stock": "22",
+      "thumbnail": "/images/wheel-cylinder.webp",
+      "timestamp": 1643252287597,
+      "code": "1249",
       "id": 4
     }
   ]

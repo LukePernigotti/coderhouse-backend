@@ -10,7 +10,7 @@ const createCartController = async (req, res) => {
 
 const deleteCartController = async (req, res) => {
     const { id } = req.params;
-    if (!id) return res.status(400).send(`id is missing from body: ${req.body}`);
+    if (!id) return res.status(400).send(`id is missing from params: ${JSON.stringify(req.params)}`);
     const response = await cart.deleteCart(id);
 
     if (response.error) return res.status(404).send(response.error);
@@ -18,8 +18,8 @@ const deleteCartController = async (req, res) => {
 };
 
 const getCartController = async (req, res) => {
-    const { id } = req.body
-    if (!id) return res.status(400).send(`id is missing from body: ${req.body}`);
+    const { id } = req.params
+    if (!id) return res.status(400).send(`id is missing from params: ${JSON.stringify(req.params)}`);
     
     const response = await cart.getCart(id);
     if (response.error) return res.status(404).send(response.error);

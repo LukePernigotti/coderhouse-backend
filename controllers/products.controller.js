@@ -1,7 +1,7 @@
 const { ProductsApi } = require('../models/index');
 
 const products = new ProductsApi();
-const IS_ADMIN = false;
+const IS_ADMIN = true;
 
 const getProductsController = async (req, res) => {
     let response;
@@ -15,7 +15,7 @@ const getProductsController = async (req, res) => {
 };
 
 const addProductController = async (req, res) => {
-    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.route.path} using method: ${req.method}.`});
+    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.originalUrl} using method: ${req.method}.`});
     const { title, description, price, stock, thumbnail, code } = req.body;
     
     if ( !title || !description || !price || !stock || !thumbnail || !code) {
@@ -31,8 +31,10 @@ const addProductController = async (req, res) => {
 };
 
 const updateProductController = async (req, res) => {
-    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.route.path} using method: ${req.method}.`});
-    if ( !title && !description && !price && !stock && !thumbnail && !code) {
+    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.originalUrl} using method: ${req.method}.`});
+    
+    const { title, description, price, stock, thumbnail, code } = req.body;
+    if (!title && !description && !price && !stock && !thumbnail && !code) {
         return res.status(400).send(`Body doesn't have a title, description, price, stock, thumbnail or code: ${JSON.stringify(req.body)}`)
     }
     const response = await products.update(req.params.id, req.body);
@@ -42,7 +44,7 @@ const updateProductController = async (req, res) => {
 };
 
 const deleteProductController = async (req, res) => {
-    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.route.path} using method: ${req.method}.`});
+    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.originalUrl} using method: ${req.method}.`});
     const response = await products.delete(req.params.id);
 
     if (response.error) return res.status(404).send(response.error);

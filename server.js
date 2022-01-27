@@ -22,7 +22,7 @@ app.get('/', async (req, res) => {
 })
 
 app.use((req, res) => {
-    res.status(404).send({ error: 404, message: `Error 404. The path ${req._parsedOriginalUrl.path}, method ${req.method} is not implemented.`});
+    res.status(404).send({ error: 404, message: `Error 404. The path ${req.originalUrl} using method ${req.method} is not implemented.`});
 });
 
 app.listen(PORT, () => console.log(`Server ON - Port: ${PORT}`));

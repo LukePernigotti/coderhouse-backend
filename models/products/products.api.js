@@ -1,71 +1,79 @@
+const { mysqlKnex } = require('../../db/config');
+const knex = mysqlKnex();
+
+const tableName = 'products';
+
+// create products table
+(async () => {
+    const exists = await knex.schema.hasTable(tableName);
+    if (!exists) {
+        await knex.schema.createTable(tableName, table => {
+            table.increments('id').primary();
+            table.string('name');
+            table.string('description');
+            table.integer('price');
+            table.integer('stock');
+            table.string('thumbnail');
+            table.integer('timestamp');
+            table.string('code');
+        });
+        console.log(`${tableName} table was created`)
+    } else {
+        console.log(`${tableName} table already exists`)
+    }
+})();
+
 class ProductsApi {
-    constructor() {
-        this.products = [
-            {
-                "title": "Escuadra",
-                "price": 123.45,
-                "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-128.png",
-                "id": 1
-            },
-            {
-                "title": "Calculadora",
-                "price": 234.56,
-                "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-128.png",
-                "id": 2
-            },
-            {
-                "title": "Globo Terráqueo",
-                "price": 345.67,
-                "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-128.png",
-                "id": 3
-            }
-        ]
-    }
-    
-    getAll() {
-        if (this.products.length > 0) return this.products;
-        return { error: 'No hay productos' }
-    }
-
-    getById(id) {
-        const product = this.products.find(product => product.id === parseInt(id));
-        if (product) return product;
-        return { error: 'Producto no encontrado' };
-    }
-        
-    add(product) {
-        let lastId;
-        if (this.products.length > 0) {
-            lastId = this.products[this.products.length - 1].id;
-        } else {
-            lastId = 0;
+    async getAll() {
+        try {
+            const products = await knex.from(tableName).select('*');
+            if (products.length > 0) return products;
+            return { error: `There are no products in the database table` }
+        } catch (error) {
+            throw new Error(error.message);
         }
-        product.id = lastId + 1;
-        this.products.push(product);
+    }
+
+    async get(id) {
+        try {
+            const product = await knex.from(tableName).select('*').where('id', id);
+            if (product[0]) return product[0];
+            return { error: `Product with id ${id} not found` };
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
         
-        return product;
+    async add(product) {
+        try {
+            await knex(tableName).insert(product); // returns id
+            return product;
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 
-    updateById(id, { title, price, thumbnail }) {
-        if (!title && !price && !thumbnail ) return {error: 'Faltan agregar los datos'}
+    async update(id, { name, description, price, stock, thumbnail, code }) {
+        if (!name && !description && !price && !stock && !thumbnail && !code)
+        return {error: 'Data not provided. Add a title, description, price, thumbnail, stock or code.'}
 
-        const product = this.products.find(product => product.id === parseInt(id));
+        try {
+            const data = { name, description, price, stock, thumbnail, code };
+            const response = await knex(tableName).update(data).where({id});
 
-        if (!product) return { error: 'Producto no encontrado' };
-
-        if (title) product.title = title;
-        if (price) product.price = price;
-        if (thumbnail) product.thumbnail = thumbnail;
-
-        return product;
+            return response; // 0 or 1
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 
-    deleteById(id) {
-        const index = this.products.findIndex(product => product.id === parseInt(id));
-        if (index < 0) return { error: 'Producto no encontrado' };
-
-        this.products.splice(index, 1);
-        return this.products;
+    async delete(id) {
+        try {
+            const response = await knex(tableName).where({id}).delete();
+            return response; // 0 or 1
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 }
 

@@ -1,9 +1,8 @@
-const { ProductsApi } = require('../models/index');
-
 const express = require('express');
+
 const { Server: IOServer } = require('socket.io');
 const { Server: HttpServer } = require('http');
-const chatMessagesArray = require('../models/chat');
+const { ProductsApi } = require('../models/index');
 
 const app = express();
 const httpServer = new HttpServer(app);
@@ -11,63 +10,58 @@ const io = new IOServer(httpServer);
 
 const products = new ProductsApi();
 
-
-const getAllProductsController = (req, res) => {
-    const response = products.getAll();
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
-    // return res.render('products', { data: { products: response }});
-};
-
-const getProductByIdController = (req, res) => {
-    const response = products.getById(req.params.id);
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
-};
-
-const addProductController = (req, res) => {
-    const { title, price, thumbnail } = req.body;
-    
-    if ( !title || !price || !thumbnail) {
-        return res.status(400).send(`El cuerpo tiene un formato incorrecto: ${req.body}`)
+const getProductsController = async (req, res) => {
+    let response;
+    if (req.params.id) {
+        response = await products.get(req.params.id);
+    } else {
+        response = await products.getAll();
     }
-
-    const product = products.add({ title, price, thumbnail });
-
-    io.sockets.emit('products-server:addProduct', product);
-
-    return res.render('home', { 
-        data: { 
-            success: true, 
-            products: products.getAll(), 
-            chatMessagesArray 
-        }
-    });
+    if (response.error) return res.status(404).send(response.error);
+    return res.json(response);
 };
 
-const updateProductByIdController = (req, res) => {
-    const response = products.updateById(req.params.id, req.body);
+const addProductController = async (req, res) => {
+    const { name, description, price, stock, thumbnail, code } = req.body;
+
+    if ( !name || !description || !price || !stock || !thumbnail || !code) {
+        return res.status(400).send(`Body has a wrong format: ${JSON.stringify(req.body)}`)
+    }
+    const timestamp = Date.now();
+
+    const response = await products.add({ name, description, price, stock, thumbnail, timestamp, code });
+
+    if (response.error) return res.status(404).send(response.error);
+
+    io.sockets.emit('products-server:addProduct', response);
+    return res.json(response);
+};
+
+const updateProductController = async (req, res) => {
+    const { title, description, price, stock, thumbnail, code } = req.body;
+    if (!title && !description && !price && !stock && !thumbnail && !code) {
+        return res.status(400).send(`Body doesn't have a title, description, price, stock, thumbnail or code: ${JSON.stringify(req.body)}`)
+    }
+    const response = await products.update(req.params.id, req.body);
     
     if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
+    return res.json(response); // 0 or 1
 };
 
-const deleteProductByIdController = (req, res) => {
-    const response = products.deleteById(req.params.id);
+const deleteProductController = async (req, res) => {
+    const response = await products.delete(req.params.id);
 
     if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
+    return res.json(response); // 0 or 1
 };
 
 module.exports = {
     products,
-    getAllProductsController,
-    getProductByIdController,
+    getProductsController,
     addProductController,
-    updateProductByIdController,
-    deleteProductByIdController,
+    updateProductController,
+    deleteProductController,
     app,
     io,
-    httpServer,
-    chatMessagesArray
+    httpServer
 }

@@ -21,17 +21,21 @@ class Chat {
         });
 
         socket.on('chat-server:loadMessages', messagesArray => {
+            console.log('chat-server:loadMessages', messagesArray)
             this.renderMessages(messagesArray);
         })
 
-        socket.on('chat-server:newMessage', messagesArray => {
-            this.renderMessages(messagesArray);
+        socket.on('chat-server:newMessage', message => {
+            console.log('chat-server:newMessage', [message]);
+            this.renderMessages([message]);
         })
 
     }
 
     renderMessages(messagesArray) {
-        const messageMarkup = messagesArray.map(messageData => {
+        const fragment = new DocumentFragment();
+
+        Array.from(messagesArray).map(messageData => {
             const { email, message } = messageData;
             const date = new Date(messageData.date);
             const day = date.getDate().toString().padStart(2, '0');
@@ -41,11 +45,18 @@ class Chat {
             const minutes = date.getMinutes().toString();
             const seconds = date.getSeconds().toString();
             const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
-            return `<p class="mb-1"><b class="text-primary">${email}</b> <span style="color: brown">${formattedDate}</span> : <i class="text-success">${message}</i></p>
-            `
-        });
 
-        this.messages.innerHTML = messageMarkup.join(' ');
+            const p = document.createElement('p');
+            p.classList.add('mb-1');
+            p.innerHTML = `<b class="text-primary">${email}</b> <span style="color: brown">${formattedDate}</span> : <i class="text-success">${message}</i>`;
+            
+            fragment.appendChild(p);
+
+            // return `<p class="mb-1"><b class="text-primary">${email}</b> <span style="color: brown">${formattedDate}</span> : <i class="text-success">${message}</i></p>
+            // `
+        });
+        
+        this.messages.appendChild(fragment);
     }
 
     sendMessage(event) {
@@ -74,7 +85,7 @@ class ProductsTable {
     }
 
     initProductsTable() {
-        fetch('/products')
+        fetch('/api/products')
             .then(response => response.json())
             .then(data => {
                 data.forEach(product => {

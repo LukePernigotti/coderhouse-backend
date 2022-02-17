@@ -1,11 +1,13 @@
 {
+  "type": "module",
   "name": "desafio-coderhouse",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "start-dev": "nodemon server.js"
+    "start": "node -r dotenv/config server.js",
+    "start-dev": "nodemon -r dotenv/config server.js",
+    "tailwind:css": "postcss src/styles/styles.css -o public/styles.css"
   },
   "author": "Lucas Pernigotti",
   "license": "ISC",
@@ -14,10 +16,18 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-handlebars": "^6.0.2",
+    "firebase-admin": "^10.0.2",
     "knex": "^0.95.15",
+    "mongoose": "^6.2.1",
     "mysql": "^2.18.1",
+    "postcss": "^8.4.5",
+    "postcss-cli": "^9.1.0",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "tailwindcss": "^3.0.15"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
   }
 }

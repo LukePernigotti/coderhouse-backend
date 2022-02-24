@@ -1,5 +1,3 @@
-// const { io } = require("socket.io-client");
-
 const socket = io();
 
 const authorSchema = new normalizr.schema.Entity('author', {});
@@ -78,9 +76,6 @@ class Chat {
             
             fragment.appendChild(img);
             fragment.appendChild(p);
-
-            // return `<p class="mb-1"><b class="text-primary">${email}</b> <span style="color: brown">${formattedDate}</span> : <i class="text-success">${message}</i></p>
-            // `
         });
         
         this.messages.appendChild(fragment);
@@ -106,63 +101,7 @@ class Chat {
     }
 }
 
-// function makeHtmlList(messages) {
-//     console.log('messages', messages);
-//     return messages.map(mensaje => {
-//         console.log('mensaje', mensaje);
-//         return (`
-//         <div>
-//             <b style="color:blue;">${mensaje.author.id}</b> :
-//             <i style="color:green;">${mensaje.text}</i>
-//             <img width="50" src="${mensaje.author.avatar}" alt=" ">
-//         </div>
-//     `)
-//     }).join(" ");
-// }
-
 const chat = document.getElementsByClassName('js-chat')[0];
 if (chat) {
     new Chat(chat);
 }
-
-
-// class ProductsTable {
-//     constructor(table) {
-//         this.tbody = table.getElementsByClassName('js-products-table__body')[0];
-//         this.initProductsTable();
-//     }
-
-//     initProductsTable() {
-//         fetch('/api/products')
-//             .then(response => response.json())
-//             .then(data => {
-//                 data.forEach(product => {
-//                     this.renderRows(product)
-//                 });
-//             });
-
-//         socket.on('products-server:addProduct', product => {
-//             this.renderRows(product);
-//         });
-//     }
-
-//     renderRows(product) {
-//         const { id, title, price, thumbnail } = product;
-//         const markup = (
-//         `<th>${id}</th>
-//         <td>${title}</td>
-//         <td>$${price}</td>
-//         <td><img src="${thumbnail}" alt="${title}" width="20" height="20"/></td>
-//         <td><a href="/products/${id}" class="w-100 btn btn-sm btn-primary">View</a></td>`
-//         );
-
-//         const tr = document.createElement('tr');
-//         tr.innerHTML = markup;
-//         this.tbody.appendChild(tr);
-//     }
-// }
-
-// const productsTable = document.getElementsByClassName('js-products-table')[0];
-// if (productsTable) {
-//     new ProductsTable(productsTable);
-// }

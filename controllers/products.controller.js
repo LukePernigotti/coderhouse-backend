@@ -1,12 +1,5 @@
-const express = require('express');
-
-const { Server: IOServer } = require('socket.io');
-const { Server: HttpServer } = require('http');
 const { ProductsApi } = require('../models/index');
-
-const app = express();
-const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer);
+const { io, httpServer, app } = require('../app');
 
 const products = new ProductsApi();
 
@@ -61,7 +54,4 @@ module.exports = {
     addProductController,
     updateProductController,
     deleteProductController,
-    app,
-    io,
-    httpServer
 }

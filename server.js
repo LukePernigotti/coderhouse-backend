@@ -1,11 +1,13 @@
 const express = require('express');
 const path = require('path');
+const faker = require('faker');
+const { httpServer, io, app } = require('./app');
 const apiRoutes = require('./routers/app.routers');
-const { products, httpServer, io, app } = require('./controllers/products.controller');
+const { products } = require('./controllers/products.controller');
 const { initChatController } = require('./controllers/chat.controller');
-const { engine } = require('express-handlebars');
 
 const PORT = process.env.PORT || 8080;
+faker.locale = 'en'
 
 // Middlewares
 app.use(express.json());
@@ -15,23 +17,29 @@ app.use('/api', apiRoutes);
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use(express.static('./public'));
 
-// Templates Engines
-app.engine('handlebars', engine({
-    extname: 'hbs',
-    defaultLayout: 'main.hbs',
-    layoutsDir: path.resolve(__dirname, './views/layouts'),
-    partialsDir: path.resolve(__dirname, './views/partials')
-}))
+app.set('view engine', 'ejs');
+app.set('views', './views/layouts');
 
-app.set('view engine', 'handlebars');
-app.set('views', './views/pages');
+app.get('/', async (req, res) => {
+    return res.render('main', { body: '../pages/home', data: { products: await products.getAll() }});
+})
 
-app.get('/', (req, res) => {
-    return res.render('home', {
-        data: { 
-            products: products.getAll() 
+// faker
+app.get('/api/products-test', (req, res) => {
+    const productsQuantity = 5
+    const products = []
+
+    for (let i = 1; i <= productsQuantity; i++) {
+        const product = {
+            id: i,
+            title: faker.commerce.product(),
+            price: faker.commerce.price(),
+            thumbnail: `${faker.image.imageUrl()}?${i}`
         }
-    });
+        products.push(product)
+    }
+
+    return res.render('main', { body: '../pages/products', data: { products }});
 })
 
 app.use((req, res) => {

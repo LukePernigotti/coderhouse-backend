@@ -1,0 +1,54 @@
+[
+  {
+    "author": {
+      "id": "test.user@gmail.com",
+      "firstname": "Test",
+      "lastname": "User",
+      "age": "28",
+      "alias": "Testy",
+      "avatar": "https://placeimg.com/160/160/people"
+    },
+    "text": "This is a test",
+    "date": "2022-02-24T20:52:18.341Z",
+    "id": 1
+  },
+  {
+    "author": {
+      "id": "anotheruser@gmail.com",
+      "firstname": "Another",
+      "lastname": "User",
+      "age": "21",
+      "alias": "Anoth",
+      "avatar": "https://placeimg.com/160/160/animals"
+    },
+    "text": "Hi mate, how are you doing?",
+    "date": "2022-02-24T20:53:30.390Z",
+    "id": 2
+  },
+  {
+    "author": {
+      "id": "test.user@gmail.com",
+      "firstname": "Test",
+      "lastname": "User",
+      "age": "28",
+      "alias": "Testy",
+      "avatar": "https://placeimg.com/160/160/people"
+    },
+    "text": "I'm good pal",
+    "date": "2022-02-24T20:53:30.390Z",
+    "id": 3
+  },
+  {
+    "author": {
+      "id": "anotheruser@gmail.com",
+      "firstname": "Another",
+      "lastname": "User",
+      "age": "21",
+      "alias": "Anoth",
+      "avatar": "https://placeimg.com/160/160/animals"
+    },
+    "text": "Nice one!",
+    "date": "2022-02-24T20:53:30.390Z",
+    "id": 4
+  }
+]

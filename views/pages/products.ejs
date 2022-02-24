@@ -1,0 +1,30 @@
+<% var data = data || {} %>
+
+<section class="ec-grid">
+    <div class="col-span-full">
+        <h1 class="mb-3 text-center">Welcome</h1>
+    </div>
+    
+    <table class="col-span-full js-products-table">
+        <thead>
+            <tr class="border-b-2 border-b-slate-800 border-b-solid">
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Price</th>
+                <th scope="col">Image</th>
+            </tr>
+        </thead>
+        <tbody class="js-products-table__body">
+            <% data.products.forEach(product => {
+                const { id, title, price, thumbnail } = product; %>
+                <tr class="">
+                    <th><%= id %> </th>
+                    <td class="text-center"><%= title %> </td>
+                    <td class="text-center">$<%= price %> </td>
+                    <td class="text-center"><img class="mx-auto" src="<%= thumbnail %>" alt="<%= title %>" width="20" height="20"/></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</section>

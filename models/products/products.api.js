@@ -1,4 +1,4 @@
-const { mysqlKnex } = require('../../db/config');
+import { mysqlKnex } from '../../db/config.js';
 const knex = mysqlKnex();
 
 const tableName = 'products';
@@ -77,4 +77,4 @@ class ProductsApi {
     }
 }
 
-module.exports = ProductsApi;
+export default ProductsApi;

@@ -105,3 +105,10 @@ const chat = document.getElementsByClassName('js-chat')[0];
 if (chat) {
     new Chat(chat);
 }
+
+// logout
+if (document.getElementById('js-logout')) {
+    setTimeout(() => {
+        location.href = '/'
+    }, 2000)
+}

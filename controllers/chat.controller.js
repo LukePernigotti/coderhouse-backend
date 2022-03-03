@@ -1,6 +1,6 @@
-const { normalize, schema } = require('normalizr');
-const { io } = require('../app');
-const ChatApi = require('../models/chat/chat.api');
+import { normalize, schema } from 'normalizr';
+import { io } from '../app.js';
+import ChatApi from '../models/chat/chat.api.js';
 
 const chatApi = new ChatApi();
 
@@ -37,6 +37,4 @@ const initChatController = async (socket) => {
     })
 };
 
-module.exports = {
-    initChatController
-}
+export { initChatController }

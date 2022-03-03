@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+import fs from 'fs/promises';
 
 const filePath = './db/';
 const fileName = 'chatMessages.json'
@@ -42,4 +42,4 @@ class ChatApi {
     }
 }
 
-module.exports = ChatApi;
+export default ChatApi;

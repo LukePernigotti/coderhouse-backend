@@ -1,9 +1,9 @@
-const express = require('express');
-const { Server: IOServer } = require('socket.io');
-const { Server: HttpServer } = require('http');
+import express from 'express';
+import { Server as IOServer } from 'socket.io';
+import { Server as HttpServer } from 'http';
 
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-module.exports = { app, httpServer, io }
+export { app, httpServer, io }

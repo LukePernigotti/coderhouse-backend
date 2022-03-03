@@ -1,3 +1,3 @@
-module.exports = {
-    ProductsApi: require('./products/products.api')
-}
+import ProductsApi from './products/products.api.js';
+
+export { ProductsApi }

@@ -1,5 +1,5 @@
-const { ProductsApi } = require('../models/index');
-const { io, httpServer, app } = require('../app');
+import { ProductsApi } from '../models/index.js';
+import { io } from '../app.js';
 
 const products = new ProductsApi();
 
@@ -48,7 +48,7 @@ const deleteProductController = async (req, res) => {
     return res.json(response); // 0 or 1
 };
 
-module.exports = {
+export {
     products,
     getProductsController,
     addProductController,

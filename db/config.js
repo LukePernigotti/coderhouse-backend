@@ -17,9 +17,8 @@ const config = {
         },
         useNullAsDefault: true
     },
-    mongoAtlas: {
-        client: 'mongodb',
-        uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@coderhouseecommerceclus.ct8zd.mongodb.net/ecommerce?retryWrites=true&w=majority`
+    mongodb: {
+        connectTo: (database) => `mongodb+srv://admin:${process.env.DB_PASSWORD}@coderhouseecommerceclus.ct8zd.mongodb.net/${database}?retryWrites=true&w=majority`
     }
 }
 

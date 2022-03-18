@@ -2,10 +2,12 @@ import express from 'express';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+import { args } from '../app.js'
 import { app } from '../app.js';
 import { config } from '../db/config.js';
 import productsRoutes from './api/products.routes.js';
 import authRoutes from './api/auth/auth.routes.js';
+import randomRoutes from './api/random/random.routes.js';
 import authMiddleware from '../middlewares/auth.js';
 import passport from '../middlewares/passport.js';
 import { products } from '../controllers/products.controller.js';
@@ -28,6 +30,7 @@ app.use(session({
 
 
 router.use('/api/products', productsRoutes);
+router.use('/api/random', randomRoutes);
 router.use('/auth', authRoutes);
 
 router.use(passport.initialize());
@@ -36,6 +39,20 @@ router.use(passport.session());
 
 router.get('/', authMiddleware, async (req, res) => {
     return res.render('main', { body: '../pages/home', data: { name: 'req.session.name', products: await products.getAll() }});
+})
+  
+
+router.get('/info', async (req, res) => {
+    const data = {
+        entryArgs: args,
+        platform: process.platform,
+        nodeVersion: process.version,
+        rss: process.memoryUsage().rss,
+        path: process.argv[1],
+        pid: process.pid,
+        cwd: process.cwd(),
+    }
+    return res.render('main', { body: '../pages/info', data });
 })
   
 

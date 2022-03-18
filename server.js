@@ -5,12 +5,13 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import flash from 'connect-flash';
 
+import { args } from './app.js';
 import { config } from './db/config.js';
 import { httpServer, io, app } from './app.js';
 import router from './routers/app.routers.js';
 import { initChatController } from './controllers/chat.controller.js';
 
-const PORT = process.env.PORT || 8080;
+const PORT = args.port || 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 faker.locale = 'en'

@@ -3,9 +3,9 @@
   "name": "desafio-coderhouse",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node -r dotenv/config server.js",
+    "start": "node -r dotenv/config server.js --port 3000",
     "start-dev": "nodemon -r dotenv/config server.js",
     "tailwind:css": "postcss src/styles/styles.css -o public/styles.css"
   },
@@ -23,6 +23,7 @@
     "express-session": "^1.17.2",
     "faker": "^5.0.0",
     "knex": "^0.95.15",
+    "minimist": "^1.2.5",
     "mongoose": "^6.2.4",
     "mysql": "^2.18.1",
     "normalizr": "^3.6.1",

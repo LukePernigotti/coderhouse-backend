@@ -19,7 +19,7 @@ const tableName = 'products';
         });
         console.log(`${tableName} table was created`)
     } else {
-        console.log(`${tableName} table already exists`)
+        // console.log(`${tableName} table already exists`)
     }
 })();
 

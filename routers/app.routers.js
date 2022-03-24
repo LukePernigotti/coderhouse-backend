@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import os from 'os';
 
 import { args } from '../app.js'
 import { app } from '../app.js';
@@ -51,6 +52,7 @@ router.get('/info', async (req, res) => {
         path: process.argv[1],
         pid: process.pid,
         cwd: process.cwd(),
+        cpusLength: os.cpus().length
     }
     return res.render('main', { body: '../pages/info', data });
 })

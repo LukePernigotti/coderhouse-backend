@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 import flash from 'connect-flash';
 import os from 'os';
 import cluster from 'cluster';
+import compression from 'compression';
+import log4js from 'log4js';
 
 import { config } from './db/config.js';
 import { httpServer, io, app, args } from './app.js';
@@ -20,6 +22,7 @@ faker.locale = 'en'
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(compression());
 app.use(router);
 app.use(flash());
 
@@ -27,6 +30,22 @@ app.use(flash());
 
 app.set('view engine', 'ejs');
 app.set('views', './views/layouts');
+
+log4js.configure({
+    appenders: {
+        console: { type: 'console' },
+        warnFile: { type: 'file', filename: 'warn.log' },
+        errorFile: { type: 'file', filename: 'error.log' }
+    },
+    categories: {
+        default: { appenders: ['console'], level: 'info' },
+        nonexistentPaths: { appenders: ['warnFile', 'console'], level: 'warn' },
+        errors: { appenders: ['errorFile', 'console'], level: 'error' }
+        // warn: { appenders: ['warnFile', 'console'], level: 'warn' },
+        // info: { appenders: ['console'], level: 'info' },
+        // error: { appenders: ['errorFile', 'console'], level: 'error' }
+    }
+})
 
 // if (cluster.isPrimary) {
 //     const NUM_WORKERS = os.cpus().length;
@@ -64,6 +83,8 @@ app.set('views', './views/layouts');
 
 
     app.use((req, res) => {
+        const consoleLogger = log4js.getLogger('nonexistentPaths');
+        consoleLogger.warn(`The path ${req.originalUrl} using method ${req.method} is not implemented.`);
         res.status(404).send({ error: 404, message: `Error 404. The path ${req.originalUrl} using method ${req.method} is not implemented.`});
     });
 
@@ -76,6 +97,8 @@ app.set('views', './views/layouts');
     });
 
     httpServer.on('error', (error) => {
+        const consoleLogger = log4js.getLogger('errors');
+        consoleLogger.error(error.message);
         console.log(error.message);
     })
 

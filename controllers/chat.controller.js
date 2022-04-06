@@ -1,4 +1,5 @@
 import { normalize, schema } from 'normalizr';
+import log4js from 'log4js';
 import { io } from '../app.js';
 import ChatApi from '../models/chat/chat.api.js';
 
@@ -21,6 +22,8 @@ const initChatController = async (socket) => {
         // const chatMessages = await knex.from(tableName).select('*');
         io.sockets.emit('chat-server:loadMessages', await getNormalizedMessages());
     } catch (error) {
+        const logger = log4js.getLogger('default');
+        logger.error(response.error);
         throw new Error(error.message);
     }
 

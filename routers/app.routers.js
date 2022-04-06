@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import os from 'os';
+import log4js from 'log4js';
 
 import { args } from '../app.js'
 import { app } from '../app.js';
@@ -39,11 +40,17 @@ router.use(passport.session());
 
 
 router.get('/', authMiddleware, async (req, res) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
     return res.render('main', { body: '../pages/home', data: { name: 'req.session.name', products: await products.getAll() }});
 })
   
 
 router.get('/info', async (req, res) => {
+    // const consoleLogger = log4js.getLogger('default');
+    // consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
     const data = {
         entryArgs: args,
         platform: process.platform,
@@ -59,6 +66,9 @@ router.get('/info', async (req, res) => {
   
 
 router.get('/logout', authMiddleware, (req, res, next) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
     req.session.destroy((err) => {
     if (err) {
         next(err);

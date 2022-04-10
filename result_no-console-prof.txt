@@ -1,0 +1,206 @@
+Statistical profiling result from no-console2-v8.log, (1655 ticks, 0 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+   1244   75.2%          C:\Windows\SYSTEM32\ntdll.dll
+    383   23.1%          C:\Program Files\nodejs\node.exe
+      4    0.2%          C:\Windows\System32\KERNELBASE.dll
+      1    0.1%          C:\Windows\System32\KERNEL32.DLL
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+      4    0.2%   17.4%  LazyCompile: *resolve node:path:158:10
+      1    0.1%    4.3%  RegExp: [&<>'"]
+      1    0.1%    4.3%  RegExp: [ \t]*<%_
+      1    0.1%    4.3%  RegExp: ;(\s*$)
+      1    0.1%    4.3%  RegExp: (<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)
+      1    0.1%    4.3%  LazyCompile: *toNamespacedPath node:path:618:19
+      1    0.1%    4.3%  LazyCompile: *scanLine C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:803:22
+      1    0.1%    4.3%  Function: ^unenroll node:timers:78:18
+      1    0.1%    4.3%  Function: ^randomBytes node:internal/crypto/random:90:21
+      1    0.1%    4.3%  Function: ^ondata node:internal/streams/readable:752:18
+      1    0.1%    4.3%  Function: ^include C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:685:30
+      1    0.1%    4.3%  Function: ^emitCloseNT node:internal/streams/destroy:126:21
+      1    0.1%    4.3%  Function: ^destroy node:internal/streams/destroy:32:17
+      1    0.1%    4.3%  Function: ^debug C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express-session\node_modules\debug\src\debug.js:65:17
+      1    0.1%    4.3%  Function: ^dateFromMs node:internal/fs/utils:460:20
+      1    0.1%    4.3%  Function: ^connect node:_tls_wrap:1597:35
+      1    0.1%    4.3%  Function: ^compile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:569:21
+      1    0.1%    4.3%  Function: ^_flush node:_http_outgoing:933:51
+      1    0.1%    4.3%  Function: ^Module node:internal/modules/cjs/loader:172:16
+      1    0.1%    4.3%  Function: ^Hash node:internal/crypto/hash:58:14
+
+ [C++]:
+   ticks  total  nonlib   name
+
+ [Summary]:
+   ticks  total  nonlib   name
+     23    1.4%  100.0%  JavaScript
+      0    0.0%    0.0%  C++
+     25    1.5%  108.7%  GC
+   1632   98.6%          Shared libraries
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+   1244   75.2%  C:\Windows\SYSTEM32\ntdll.dll
+     18    1.4%    LazyCompile: *cpus node:os:133:14
+     18  100.0%      Function: ^<anonymous> file:///C:/MyFiles/Courses/Coderhouse/Backend/Desafio/routers/app.routers.js:50:21
+     18  100.0%        Function: ^handle C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\layer.js:86:49
+     18  100.0%          Function: ^next C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\route.js:114:16
+     18  100.0%            Function: ^dispatch C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\route.js:98:45
+
+    383   23.1%  C:\Program Files\nodejs\node.exe
+    281   73.4%    C:\Program Files\nodejs\node.exe
+     64   22.8%      Function: ^compileFunction node:vm:308:25
+     64  100.0%        Function: ^wrapSafe node:internal/modules/cjs/loader:1017:18
+     37   57.8%          Function: ^Module._compile node:internal/modules/cjs/loader:1055:37
+     37  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1110:37
+     27   42.2%          LazyCompile: *Module._compile node:internal/modules/cjs/loader:1055:37
+     27  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1110:37
+     25    8.9%      Function: ^realpathSync node:fs:2408:22
+     22   88.0%        Function: ^toRealPath node:internal/modules/cjs/loader:393:20
+     18   81.8%          Function: ^tryFile node:internal/modules/cjs/loader:384:17
+     18  100.0%            Function: ^tryExtensions node:internal/modules/cjs/loader:400:23
+      3   13.6%          LazyCompile: *Module._findPath node:internal/modules/cjs/loader:494:28
+      3  100.0%            Function: ^Module._resolveFilename node:internal/modules/cjs/loader:848:35
+      1    4.5%          Function: ^Module._findPath node:internal/modules/cjs/loader:494:28
+      1  100.0%            Function: ^Module._resolveFilename node:internal/modules/cjs/loader:848:35
+      2    8.0%        LazyCompile: *Module._findPath node:internal/modules/cjs/loader:494:28
+      2  100.0%          Function: ^Module._resolveFilename node:internal/modules/cjs/loader:848:35
+      2  100.0%            LazyCompile: *Module._load node:internal/modules/cjs/loader:757:24
+      1    4.0%        LazyCompile: ~defaultResolve node:internal/modules/esm/resolve:981:24
+      1  100.0%          Function: ^resolve node:internal/modules/esm/loader:402:16
+      1  100.0%            Function: ^getModuleJob node:internal/modules/esm/loader:221:21
+     16    5.7%      C:\Program Files\nodejs\node.exe
+      4   25.0%        LazyCompile: *scanLine C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:803:22
+      3   75.0%          LazyCompile: *compile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:569:21
+      3  100.0%            Function: ^compile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:379:35
+      1   25.0%          LazyCompile: *<anonymous> C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:730:32
+      1  100.0%            C:\Program Files\nodejs\node.exe
+      2   12.5%        Function: ^createRegex C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:558:25
+      2  100.0%          Function: ^Template C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:507:18
+      2  100.0%            Function: ^compile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:379:35
+      1    6.3%        LazyCompile: ~makeConnection C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\mongoose\node_modules\mongodb\lib\cmap\connect.js:247:24
+      1  100.0%          LazyCompile: ~connect C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\mongoose\node_modules\mongodb\lib\cmap\connect.js:32:17
+      1  100.0%            LazyCompile: ~checkServer C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\mongoose\node_modules\mongodb\lib\sdam\monitor.js:139:21
+      1    6.3%        LazyCompile: *Module._load node:internal/modules/cjs/loader:757:24
+      1  100.0%          LazyCompile: *Module.require node:internal/modules/cjs/loader:997:36
+      1  100.0%            Function: ^require node:internal/modules/cjs/helpers:101:31
+      1    6.3%        Function: ~<anonymous> C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\fs-extra\lib\fs\index.js:1:1
+      1  100.0%          LazyCompile: *Module._compile node:internal/modules/cjs/loader:1055:37
+      1  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1110:37
+      1    6.3%        Function: ^resolve node:path:158:10
+      1  100.0%          LazyCompile: *readPackage node:internal/modules/cjs/loader:290:21
+      1  100.0%            Function: ^readPackageScope node:internal/modules/cjs/loader:321:26
+      1    6.3%        Function: ^realpathSync node:fs:2408:22
+      1  100.0%          Function: ^toRealPath node:internal/modules/cjs/loader:393:20
+      1  100.0%            Function: ^tryFile node:internal/modules/cjs/loader:384:17
+      1    6.3%        Function: ^checkInvalidHeaderChar node:_http_common:232:32
+      1  100.0%          Function: ^<anonymous> node:_http_outgoing:564:45
+      1  100.0%            Function: ^setHeader node:_http_outgoing:574:57
+      1    6.3%        Function: ^_addHeaderLine node:_http_incoming:337:24
+      1  100.0%          Function: ^get node:_http_incoming:108:16
+      1  100.0%            Function: ^parserOnIncoming node:_http_server:852:26
+      1    6.3%        Function: ^Module._findPath node:internal/modules/cjs/loader:494:28
+      1  100.0%          Function: ^Module._resolveFilename node:internal/modules/cjs/loader:848:35
+      1  100.0%            Function: ^Module._load node:internal/modules/cjs/loader:757:24
+      1    6.3%        Function: ^FastBuffer node:internal/buffer:958:14
+      1  100.0%          Function: ^createUnsafeBuffer node:internal/buffer:1059:28
+      1  100.0%            Function: ^createPool node:buffer:150:20
+      1    6.3%        Function: ^<anonymous> C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:730:32
+      1  100.0%          C:\Program Files\nodejs\node.exe
+      1  100.0%            Function: ^generateSource C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:709:28
+     14    5.0%      Function: ^stat node:internal/modules/cjs/loader:151:14
+     11   78.6%        Function: ^tryFile node:internal/modules/cjs/loader:384:17
+     11  100.0%          Function: ^tryExtensions node:internal/modules/cjs/loader:400:23
+     11  100.0%            Function: ^Module._findPath node:internal/modules/cjs/loader:494:28
+      3   21.4%        Function: ^Module._findPath node:internal/modules/cjs/loader:494:28
+      3  100.0%          Function: ^Module._resolveFilename node:internal/modules/cjs/loader:848:35
+      3  100.0%            Function: ^Module._load node:internal/modules/cjs/loader:757:24
+      8    2.8%      Function: ^statSync node:fs:1528:18
+      8  100.0%        Function: ^tryStat C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\view.js:174:17
+      8  100.0%          Function: ^resolve C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\view.js:146:42
+      8  100.0%            Function: ^lookup C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\view.js:104:40
+      8    2.8%      Function: ^openSync node:fs:576:18
+      8  100.0%        Function: ^readFileSync node:fs:450:22
+      4   50.0%          Function: ^fileLoader C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:290:20
+      4  100.0%            Function: ^handleCache C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:208:21
+      4   50.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1110:37
+      3   75.0%            Function: ^Module.load node:internal/modules/cjs/loader:969:33
+      1   25.0%            LazyCompile: *Module._load node:internal/modules/cjs/loader:757:24
+      6    2.1%      Function: ^existsSync node:fs:290:20
+      6  100.0%        Function: ^getIncludePath C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:154:24
+      6  100.0%          Function: ^includeFile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:307:21
+      6  100.0%            Function: ^include C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:685:30
+      6    2.1%      Function: ^cpus node:os:133:14
+      6  100.0%        Function: ^<anonymous> file:///C:/MyFiles/Courses/Coderhouse/Backend/Desafio/routers/app.routers.js:50:21
+      6  100.0%          Function: ^handle C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\layer.js:86:49
+      5   83.3%            Function: ^next C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\route.js:114:16
+      1   16.7%            LazyCompile: ~next C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\route.js:114:16
+      5    1.8%      LazyCompile: *resolve node:path:158:10
+      4   80.0%        LazyCompile: *toNamespacedPath node:path:618:19
+      3   75.0%          Function: ^openSync node:fs:576:18
+      3  100.0%            Function: ^readFileSync node:fs:450:22
+      1   25.0%          Function: ^stat node:internal/modules/cjs/loader:151:14
+      1  100.0%            Function: ^Module._findPath node:internal/modules/cjs/loader:494:28
+      1   20.0%        Function: ^exports.resolveInclude C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:118:34
+      1  100.0%          Function: ^getIncludePath C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:154:24
+      1  100.0%            Function: ^includeFile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:307:21
+      5    1.8%      Function: ^readSync node:fs:684:18
+      5  100.0%        Function: ^tryReadSync node:fs:429:21
+      5  100.0%          Function: ^readFileSync node:fs:450:22
+      5  100.0%            Function: ^Module._extensions..js node:internal/modules/cjs/loader:1110:37
+      5    1.8%      Function: ^compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      4   80.0%        Function: ^nativeModuleRequire node:internal/bootstrap/loaders:332:29
+      1   25.0%          Function: ~<anonymous> node:http:1:1
+      1  100.0%            Function: ^compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      1   25.0%          Function: ~<anonymous> node:crypto:1:1
+      1  100.0%            Function: ^compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      1   25.0%          Function: ~<anonymous> node:child_process:1:1
+      1  100.0%            Function: ^compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      1   25.0%          Function: ~<anonymous> node:assert:1:1
+      1  100.0%            Function: ^compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      1   20.0%        Function: ^compileForPublicLoader node:internal/bootstrap/loaders:246:25
+      1  100.0%          Function: ^loadNativeModule node:internal/modules/cjs/helpers:44:26
+      1  100.0%            Function: ^Module._load node:internal/modules/cjs/loader:757:24
+      5    1.8%      Function: ^compile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:569:21
+      5  100.0%        Function: ^compile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:379:35
+      5  100.0%          Function: ^handleCache C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:208:21
+      3   60.0%            Function: ^includeFile C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:307:21
+      2   40.0%            Function: ^tryHandleCache C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\ejs\lib\ejs.js:252:24
+      4    1.4%      Function: ^writevGeneric node:internal/stream_base_commons:126:23
+      4  100.0%        Function: ^Socket._writeGeneric node:net:769:42
+      4  100.0%          Function: ^Socket._writev node:net:801:36
+      4  100.0%            Function: ^doWrite node:internal/streams/writable:398:17
+      4    1.4%      Function: ^authenticate C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\passport\lib\middleware\authenticate.js:94:31
+      2   50.0%        LazyCompile: *trim_prefix C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\index.js:288:23
+      2  100.0%          LazyCompile: *next C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\index.js:176:16
+      2  100.0%            Function: ^initialize C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\passport\lib\middleware\initialize.js:51:29
+      2   50.0%        Function: ^handle C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\layer.js:86:49
+      2  100.0%          Function: ^trim_prefix C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\index.js:288:23
+      2  100.0%            LazyCompile: *next C:\MyFiles\Courses\Coderhouse\Backend\Desafio\node_modules\express\lib\router\index.js:176:16
+      3    1.1%      LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      3  100.0%        LazyCompile: ~nativeModuleRequire node:internal/bootstrap/loaders:332:29
+      1   33.3%          LazyCompile: ~setupInspectorHooks node:internal/bootstrap/pre_execution:232:29
+      1  100.0%            LazyCompile: ~prepareMainThreadExecution node:internal/bootstrap/pre_execution:22:36
+      1   33.3%          Function: ~<anonymous> node:internal/process/esm_loader:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      1   33.3%          Function: ~<anonymous> node:internal/modules/esm/loader:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader node:internal/bootstrap/loaders:299:27
+      3    1.1%      Function: ^tryStatSync node:fs:404:21
+      3  100.0%        Function: ^readFileSync node:fs:450:22
+      3  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1110:37
+      2   66.7%            Function: ^Module.load node:internal/modules/cjs/loader:969:33
+      1   33.3%            LazyCompile: *Module._load node:internal/modules/cjs/loader:757:24
+      3    1.1%      Function: ^maybeCacheSourceMap node:internal/source_map/source_map_cache:74:29
+      3  100.0%        Function: ^Module._compile node:internal/modules/cjs/loader:1055:37
+      3  100.0%          Function: ^Module._extensions..js node:internal/modules/cjs/loader:1110:37
+      3  100.0%            Function: ^Module.load node:internal/modules/cjs/loader:969:33
+

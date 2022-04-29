@@ -4,14 +4,24 @@
     <div class="col-span-full">
         <div class="flex justify-between">
             <h1 class="text-xl">
-                Welcome, <%= data.name %>
+                Welcome, <%= data.user.name %>
             </h1>
-
-            <button class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600" onclick="location.href='/logout'">
-                log out
-            </button>
+            <ul>
+                <li>Age: <%= data.user.age %></li>
+                <li>Email: <%= data.user.email %></li>
+                <li>Address: <%= data.user.address %></li>
+                <li>Phone: <%= data.user.phone %></li>
+                <li><img src="images/avatars/<%= data.user.avatar %>" alt="Avatar" width="100"/></li>
+            </ul>
         </div>
+        <button class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600" onclick="location.href='/logout'">
+            log out
+        </button>
     </div>
+</section>
+
+<section class="ec-grid py-3">
+    <%- include('../partials/productCards.ejs') %>
 </section>
 
 <section class="ec-grid py-3">
@@ -20,8 +30,8 @@
             <h2 class="mb-3 text-center text-2xl">Add product</h2>
     
             <div class="flex mb-3">
-                <label class="mr-3" for="title">Title:</label>
-                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="title" id="title" />
+                <label class="mr-3" for="name">Name:</label>
+                <input class="bg-transparent border-b border-b-slate-900 border-solid" type="text" name="name" id="name" />
             </div>
             <div class="flex mb-3">
                 <label class="mr-3" for="description">Description:</label>

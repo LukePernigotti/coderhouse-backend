@@ -7,6 +7,7 @@ import log4js from 'log4js';
 import { args } from '../app.js'
 import { app } from '../app.js';
 import { config } from '../db/config.js';
+import cartRoutes from './api/cart.routes.js';
 import productsRoutes from './api/products.routes.js';
 import authRoutes from './api/auth/auth.routes.js';
 import randomRoutes from './api/random/random.routes.js';
@@ -31,6 +32,7 @@ app.use(session({
 }))
 
 
+router.use('/api/cart', cartRoutes);
 router.use('/api/products', productsRoutes);
 router.use('/api/random', randomRoutes);
 router.use('/auth', authRoutes);
@@ -42,10 +44,14 @@ router.use(passport.session());
 router.get('/', authMiddleware, async (req, res) => {
     const consoleLogger = log4js.getLogger('default');
     consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+    const user = req.user;
 
-    return res.render('main', { body: '../pages/home', data: { name: 'req.session.name', products: await products.getAll() }});
+    return res.render('main', { body: '../pages/home', data: { 
+        isAdmin: true,
+        user, 
+        products: await products.getAll() 
+    }});
 })
-  
 
 router.get('/info', async (req, res) => {
     // const consoleLogger = log4js.getLogger('default');

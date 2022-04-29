@@ -16,6 +16,7 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use('login', new LocalStrategy(
+    { usernameField: 'email' },
     (email, password, done) => {
         User.getByEmail(email)
         .then((user) => {
@@ -23,10 +24,6 @@ passport.use('login', new LocalStrategy(
                 return done(null, false, { data: { error: 'Invalid password' }});
             }
             return done(null, user);
-            // if (!user) {
-            //     console.log(`User with email ${email} not found`);
-            //     return done(null, false);
-            // }
         })
         .catch((error) => {
             return done(error);
@@ -35,11 +32,17 @@ passport.use('login', new LocalStrategy(
 ));
 
 passport.use('register', new LocalStrategy(
-    { passReqToCallback: true },
+    { passReqToCallback: true, usernameField: 'email' },
     (req, email, password, done) => {
         const newUser = {
             email,
             password: createHash(password),
+            name: req.body.name,
+            address: req.body.address,
+            age: req.body.age,
+            intPrefix: req.body.intPrefix,
+            phone: req.body.phone,
+            avatar: `${req.body.name.replace(' ', '-')}-${req.body.phone}.png`
         }
 
         User.createUser(newUser)
@@ -52,7 +55,6 @@ passport.use('register', new LocalStrategy(
             return done(error);
         })
     }
-    )
-);
+));
 
 export default passport;

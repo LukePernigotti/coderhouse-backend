@@ -13,6 +13,7 @@ import { config } from './db/config.js';
 import { httpServer, io, app, args } from './app.js';
 import router from './routers/app.routers.js';
 import { initChatController } from './controllers/chat.controller.js';
+import passport from './middlewares/passport.js';
 
 const PORT = args.port || 8080;
 // const __filename = fileURLToPath(import.meta.url);
@@ -23,10 +24,12 @@ faker.locale = 'en'
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(compression());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(router);
 app.use(flash());
 
-// app.use(express.static('./public'));
+app.use(express.static('./public'));
 
 app.set('view engine', 'ejs');
 app.set('views', './views/layouts');

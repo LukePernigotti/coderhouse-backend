@@ -688,6 +688,18 @@ Ensure the default browser behavior of the `hidden` attribute.
     padding-right: 0;
 }
 
+.intPrefix {
+    display: inline;
+}
+
+.intPrefix::before {
+    content: "+";
+}
+
+.intPrefix input {
+    width: 2rem;
+}
+
 .hover\:bg-blue-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));

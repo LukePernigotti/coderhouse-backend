@@ -1,0 +1,45 @@
+<% var data = data || {} %>
+
+<section class="ec-grid">
+    <div class="col-span-full">
+        <h1 class="text-xl mb-3 text-center">Register</h1>
+
+        <form action="/auth/register" method="post" autocomplete="off" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="email">Email:</label>
+                <input id="email" type="text" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password">Password:</label>
+                <input id="password" type="text" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label for="name">Name:</label>
+                <input id="name" type="text" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="address">Address:</label>
+                <input id="address" type="text" name="address" required>
+            </div>
+            <div class="mb-3">
+                <label for="age">Age:</label>
+                <input id="age" type="text" name="age" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone">Phone:</label>
+                <div class="intPrefix">
+                    <input id="intPrefix" type="text" name="intPrefix" value="54" required>
+                </div>
+                <input id="phone" type="text" name="phone" required>
+            </div>
+            <div class="mb-3">
+                <label for="avatar">Avatar:</label>
+                <input type="file" name="avatar" id="avatar">
+            </div>
+            <% if (data.error) { %>
+                <p><%= data.error %></p>
+            <% } %>
+            <button class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600">Sign in</button>
+        </form>
+    </div>
+</section>

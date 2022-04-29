@@ -1,7 +1,8 @@
-const { ProductsApi } = require('../models/index');
+import log4js from 'log4js';
+import { ProductsApi } from '../models/index.js';
+import { io } from '../app.js';
 
 const products = new ProductsApi();
-const IS_ADMIN = true;
 
 const getProductsController = async (req, res) => {
     let response;
@@ -10,52 +11,71 @@ const getProductsController = async (req, res) => {
     } else {
         response = await products.getAll();
     }
-    if (response.error) return res.status(404).send(response.error);
+    if (response.error) {
+        const logger = log4js.getLogger('default');
+        logger.error(response.error);
+
+        return res.status(404).send(response.error);
+    }
     return res.json(response);
 };
 
 const addProductController = async (req, res) => {
-    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.originalUrl} using method: ${req.method}.`});
-    const { title, description, price, stock, thumbnail, code } = req.body;
-    
-    if ( !title || !description || !price || !stock || !thumbnail || !code) {
+    const { name, description, price, stock, thumbnail, code } = req.body;
+
+    if ( !name || !description || !price || !stock || !thumbnail || !code) {
+        const logger = log4js.getLogger('default');
+        logger.error(`Body has a wrong format: ${JSON.stringify(req.body)}`);
+
         return res.status(400).send(`Body has a wrong format: ${JSON.stringify(req.body)}`)
     }
-    
     const timestamp = Date.now();
 
-    const response = await products.add({ title, description, price, stock, thumbnail, timestamp, code });
+    const response = await products.add({ name, description, price, stock, thumbnail, timestamp, code });
 
-    if (response.error) return res.status(404).send(response.error);
+    if (response.error) {
+        const logger = log4js.getLogger('default');
+        logger.error(response.error);
+
+        return res.status(404).send(response.error);
+    }
+
+    io.sockets.emit('products-server:addProduct', response);
     return res.json(response);
 };
 
 const updateProductController = async (req, res) => {
-    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.originalUrl} using method: ${req.method}.`});
-    
     const { title, description, price, stock, thumbnail, code } = req.body;
     if (!title && !description && !price && !stock && !thumbnail && !code) {
+        const logger = log4js.getLogger('default');
+        logger.error(`Body doesn't have a title, description, price, stock, thumbnail or code: ${JSON.stringify(req.body)}`);
         return res.status(400).send(`Body doesn't have a title, description, price, stock, thumbnail or code: ${JSON.stringify(req.body)}`)
     }
     const response = await products.update(req.params.id, req.body);
     
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
+    if (response.error) {
+        const logger = log4js.getLogger('default');
+        logger.error(response.error);
+        return res.status(404).send(response.error);
+    }
+    return res.json(response); // 0 or 1
 };
 
 const deleteProductController = async (req, res) => {
-    if (!IS_ADMIN) return res.status(401).send({ error: 401, message: `Error 401. You are not authorized to access to path: ${req.originalUrl} using method: ${req.method}.`});
     const response = await products.delete(req.params.id);
 
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
+    if (response.error) {
+        const logger = log4js.getLogger('default');
+        logger.error(response.error);
+        return res.status(404).send(response.error);
+    }
+    return res.json(response); // 0 or 1
 };
 
-module.exports = {
+export {
     products,
     getProductsController,
     addProductController,
     updateProductController,
     deleteProductController,
-    IS_ADMIN
 }

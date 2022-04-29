@@ -1,24 +1,31 @@
 <% data.products.forEach(product => {
-    const { title, description, price, stock, thumbnail } = product; %>
+    const { _id, name, description, price, stock, thumbnail } = product; %>
     <div class="c-product-card col-span-full md:col-span-4 lg:col-span-5 xl:col-span-6 h-full flex rounded-lg shadow-sm  bg-white">
         <div class="relative w-2/6 rounded-l-lg overflow-hidden">
             <div class="block overflow-hidden absolute inset-0 box-border m-0">
-                <img class="object-cover rounded-l-lg transition-transform bg-black text-white absolute inset-0 box-border p-0 border-none m-auto w-0 h-0 min-h-full min-w-full max-w-full max-h-full" src="<%= thumbnail %>" alt="<%= title %>" />
+                <img class="object-cover rounded-l-lg transition-transform bg-black text-white absolute inset-0 box-border p-0 border-none m-auto w-0 h-0 min-h-full min-w-full max-w-full max-h-full" src="<%= thumbnail %>" alt="<%= name %>" />
             </div>
         </div>
         <div class="w-4/6 px-6 py-8 flex flex-col justify-items-center">
-            <h3 class="text-xl"><%= title %></h3>
+            <h3 class="text-xl"><%= name %></h3>
             <p class="body2 text-gray-500 mb-2"><%= description %></p>
             <div class="h-full flex items-end justify-between">
                 <span>$<%= price %></span>
                 <span>Stock: <%= stock %></span>
             </div>
+            <div>
+                <form action="/api/cart/<%= _id %>" method="post" class="col-span-full rounded p-4 flex flex-col">
+                    <button class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600">Add to cart</a>
+                    </div>
+                </form>
+            <!--
             <% if (data.isAdmin) { %> 
                 <div>
                     <button class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600">Edit</button>
                     <button class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600">Remove</button>
                 </div>
             <% } %>
+            -->
         </div>
     </div>
 <% }) %>

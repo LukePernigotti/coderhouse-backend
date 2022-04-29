@@ -1,0 +1,29 @@
+<% var data = data || {} %>
+
+<section>
+    <dl>
+        <dt><b>Entry arguments:</b></dt>
+        <dd><%= JSON.stringify(data.entryArgs) %> </dd>
+    
+        <dt><b>OS:</b></dt>
+        <dd><%= data.platform %> </dd>
+
+        <dt><b>Node.js version:</b></dt>
+        <dd><%= data.nodeVersion %></dd>
+
+        <dt><b>RSS:</b></dt>
+        <dd><%= data.rss %> </dd>
+
+        <dt><b>Path:</b></dt>
+        <dd><%= data.path %> </dd>
+
+        <dt><b>Process ID:</b></dt>
+        <dd><%= data.pid %> </dd>
+
+        <dt><b>Working Directory:</b></dt>
+        <dd><%= data.cwd %> </dd>
+
+        <dt><b>Processors quantity:</b></dt>
+        <dd><%= data.cpusLength %> </dd>
+    </dl>
+</section>

@@ -1,0 +1,22 @@
+<% var data = data || {} %>
+
+<section class="ec-grid">
+    <div class="col-span-full">
+        <h1 class="text-xl mb-3 text-center">Log in</h1>
+
+        <form action="/auth/login" method="post" autocomplete="off">
+            <div class="mb-3">
+                <label for="email">Email:</label>
+                <input id="email" type="text" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password">password:</label>
+                <input id="password" type="text" name="password" required>
+            </div>
+            <% if (data.error) { %>
+                <p><%= data.error %></p>
+            <% } %>
+            <button class="py-1 px-4 rounded text-sm bg-blue-800 text-white hover:bg-blue-600">Log in</button>
+        </form>
+    </div>
+</section>

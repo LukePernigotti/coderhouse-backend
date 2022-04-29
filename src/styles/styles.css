@@ -40,3 +40,15 @@
     padding-left: 0;
     padding-right: 0;
 }
+
+.intPrefix {
+    display: inline;
+}
+
+.intPrefix::before {
+    content: "+";
+}
+
+.intPrefix input {
+    width: 2rem;
+}

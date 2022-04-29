@@ -1,4 +1,4 @@
-module.exports = {
-    CartApi: require('./cart/cart.api'),
-    ProductsApi: require('./products/products.api'),
-}
+import ProductsApi from './daos/Products.api.js';
+import CartsApi from './daos/Carts.api.js';
+
+export { ProductsApi, CartsApi }

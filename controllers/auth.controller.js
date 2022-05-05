@@ -1,30 +1,48 @@
-import { transporter, mailOptions } from "../ethereal.js";
+import log4js from 'log4js';
 
-const register = async (req, res, next) => {
-    mailOptions.subject = 'New registry';
-    mailOptions.html = `<h1>Welcome</h1>
-    <ul>
-        <li>${req.body.name}</li>
-        <li>${req.body.age}</li>
-        <li>${req.body.email}</li>
-        <li>${req.body.address}</li>
-        <li>${req.body.phone}</li>
-    </ul>`;
+import { getLoginService, getRegisterService, postLoginService, postRegisterService } from '../services/auth.service.js';
 
-    try {
-        const mail = await transporter.sendMail(mailOptions);
-        console.log('mail', mail);
-    } catch (error) {
-        console.log('error', error);
-    }
+const getRegisterController = (req, res) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+    
+    const response = getRegisterService(req, res);
 
-    return res.redirect('/');
+    if (response.redirect) return res.redirect(response.redirect)
+    return res.render('main', response);
 }
-const login = async (req, res, next) => { 
-    return res.redirect('/')
+
+const postRegisterController = async (req, res, next) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
+    const response = await postRegisterService(req, res)
+
+    return res.redirect(response.redirect);
+}
+
+const getLoginController = (req, res) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
+    const response = getLoginService(req, res);
+
+    if (response.redirect) return res.redirect(response.redirect)
+    return res.render('main', response);
+}
+
+const postLoginController = (req, res, next) => { 
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
+    const response = postLoginService(req, res)
+
+    return res.redirect(response.redirect);
 };
 
 export {
-    login,
-    register,
+    getLoginController,
+    postLoginController,
+    postRegisterController,
+    getRegisterController,
 }

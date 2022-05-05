@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import MongoDBContainer from '../containers/MongodbContainer.js';
+import MongoDBContainer from '../containers/Mongodb.container.js';
 import CartSchema from '../schemas/Cart.schema.js';
 import ProductSchema from '../schemas/Product.schema.js';
 
@@ -11,7 +11,7 @@ class CartsApi extends MongoDBContainer {
         super(collection, CartSchema)
     }
 
-    async get(userId) {
+    async getById(userId) {
         try {
             let document;
             document = await this.model.findOne({ userId });
@@ -34,7 +34,7 @@ class CartsApi extends MongoDBContainer {
             const productsModel = mongoose.model('products', ProductSchema);
             const productDocument = await productsModel.findById(productId);
             
-            const cart = await this.get(userId);
+            const cart = await this.getById(userId);
             
             const cartDocument = await this.model.updateOne(
                 { '_userId': userId }, 

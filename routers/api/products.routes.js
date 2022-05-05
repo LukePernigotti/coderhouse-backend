@@ -1,5 +1,4 @@
 import express from 'express';
-import log4js from 'log4js';
 
 import { 
     getProductsController,
@@ -10,32 +9,12 @@ import {
 
 const router = express.Router();
 
-router.get('/:id?', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+router.get('/:id?', getProductsController);
 
-    getProductsController(req, res)
-});
+router.post('/', addProductController);
 
-router.post('/', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+router.put('/:id', updateProductController);
 
-    addProductController(req, res)
-});
-
-router.put('/:id', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
-
-    updateProductController(req, res);
-});
-
-router.delete('/:id', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
-
-    deleteProductController(req, res);
-});
+router.delete('/:id', deleteProductController);
 
 export default router;

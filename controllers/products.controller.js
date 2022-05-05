@@ -1,75 +1,74 @@
 import log4js from 'log4js';
-import { ProductsApi } from '../models/index.js';
-import { io } from '../app.js';
 
-const products = new ProductsApi();
+import { 
+    addProductService, 
+    deleteProductService, 
+    getProductsService, 
+    updateProductService,
+    products
+} from '../services/products.service.js';
+
 
 const getProductsController = async (req, res) => {
-    let response;
-    if (req.params.id) {
-        response = await products.get(req.params.id);
-    } else {
-        response = await products.getAll();
-    }
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
+    const response = await getProductsService(req, res);
+
     if (response.error) {
         const logger = log4js.getLogger('default');
         logger.error(response.error);
-
+        
         return res.status(404).send(response.error);
     }
+
     return res.json(response);
 };
 
 const addProductController = async (req, res) => {
-    const { name, description, price, stock, thumbnail, code } = req.body;
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
 
-    if ( !name || !description || !price || !stock || !thumbnail || !code) {
-        const logger = log4js.getLogger('default');
-        logger.error(`Body has a wrong format: ${JSON.stringify(req.body)}`);
-
-        return res.status(400).send(`Body has a wrong format: ${JSON.stringify(req.body)}`)
-    }
-    const timestamp = Date.now();
-
-    const response = await products.add({ name, description, price, stock, thumbnail, timestamp, code });
-
-    if (response.error) {
-        const logger = log4js.getLogger('default');
-        logger.error(response.error);
-
-        return res.status(404).send(response.error);
-    }
-
-    io.sockets.emit('products-server:addProduct', response);
-    return res.json(response);
-};
-
-const updateProductController = async (req, res) => {
-    const { title, description, price, stock, thumbnail, code } = req.body;
-    if (!title && !description && !price && !stock && !thumbnail && !code) {
-        const logger = log4js.getLogger('default');
-        logger.error(`Body doesn't have a title, description, price, stock, thumbnail or code: ${JSON.stringify(req.body)}`);
-        return res.status(400).send(`Body doesn't have a title, description, price, stock, thumbnail or code: ${JSON.stringify(req.body)}`)
-    }
-    const response = await products.update(req.params.id, req.body);
+    const response = await addProductService(req, res);
     
     if (response.error) {
         const logger = log4js.getLogger('default');
-        logger.error(response.error);
-        return res.status(404).send(response.error);
+        logger.error(response.message);
+
+        return res.status(response.statusCode).send(response.message);
     }
-    return res.json(response); // 0 or 1
+
+    return res.json(response.products);
+};
+
+const updateProductController = async (req, res) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+    
+    const response = await updateProductService(req, res);
+    
+    if (response.error) {
+        const logger = log4js.getLogger('default');
+        logger.error(response.message);
+        return res.status(response.statusCode).send(response.message);
+    }
+    return res.json(response.products);
 };
 
 const deleteProductController = async (req, res) => {
-    const response = await products.delete(req.params.id);
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
+    const response = await deleteProductService(req, res);
 
     if (response.error) {
         const logger = log4js.getLogger('default');
-        logger.error(response.error);
-        return res.status(404).send(response.error);
+        logger.error(response.message);
+
+        return res.status(response.statusCode).send(response.message);
     }
-    return res.json(response); // 0 or 1
+
+    return res.json(response.product);
 };
 
 export {

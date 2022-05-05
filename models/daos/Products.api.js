@@ -1,4 +1,4 @@
-import MongoDBContainer from '../containers/MongodbContainer.js';
+import MongoDBContainer from '../containers/Mongodb.container.js';
 import ProductSchema from '../schemas/Product.schema.js';
 
 const collection = 'products';

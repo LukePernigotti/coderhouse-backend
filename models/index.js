@@ -1,8 +1,6 @@
 import ProductsDao from './daos/Products.dao.js';
 import CartsDao from './daos/Carts.dao.js';
 
-console.log('productsdao', ProductsDao);
-
 class ApiFactory {
     static ApiTypes = {
         products: () => ApiFactory.getAPI('products'),
@@ -30,7 +28,5 @@ class ApiFactory {
 const apiFactory = new ApiFactory();
 const ProductsApi = apiFactory.createAPI('products');
 const CartsApi = apiFactory.createAPI('carts');
-console.log('ProductsApi', ProductsApi);
-console.log('CartsApi', CartsApi);
 
 export { ProductsApi, CartsApi }

@@ -6,9 +6,16 @@ import ProductSchema from '../schemas/Product.schema.js';
 
 const collection = 'carts';
 
-class CartsApi extends MongoDBContainer {
+class CartsDao extends MongoDBContainer {
+    static instance;
     constructor() {
-        super(collection, CartSchema)
+        if (!CartsDao.instance) {
+            super(collection, CartSchema)
+            CartsDao.instance = this;
+            return this;
+        } else {
+            return CartsDao.instance;
+        }
     }
 
     async getById(userId) {
@@ -58,4 +65,4 @@ class CartsApi extends MongoDBContainer {
     }
 }
 
-export default CartsApi
+export default CartsDao

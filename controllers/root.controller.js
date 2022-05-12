@@ -1,6 +1,4 @@
 import log4js from 'log4js';
-import os from 'os';
-import { args } from '../app.js'
 
 import { getInfoService, getRootService } from '../services/root.service.js';
 
@@ -8,7 +6,7 @@ const getRootController = async (req, res) => {
     const consoleLogger = log4js.getLogger('default');
     consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
     
-    const response = getRootService(req, res);
+    const response = await getRootService(req, res);
 
     return res.render('main', response);
 }

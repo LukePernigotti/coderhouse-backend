@@ -5,7 +5,12 @@ import { CartsApi } from '../models/index.js';
 const cart = new CartsApi();
 
 const buyService = async (req, res) => {
-    const cartDocument = await cart.getById(req.user._id);
+    let cartDocument;
+    try {
+        cartDocument = await cart.getById(req.user._id);
+    } catch (error) {
+        return res.status(error.status).send(error.description);
+    }
 
     const accountSid = 'AC452f166aea5b749ecd49cf636e9cfaba'
     const authToken = '125922fd13e0009ba70c1ac50e0a2488'
@@ -20,7 +25,8 @@ const buyService = async (req, res) => {
             Your order is processing`,
         })
     } catch (error) {
-        console.log(error)
+        console.log('error', error);
+        return res.status(STATUS.INTERNAL_ERROR.code).send(`${STATUS.INTERNAL_ERROR.tag} ${error.message}`);
     }
 
     mailOptions.subject = 'New order';
@@ -36,9 +42,14 @@ const buyService = async (req, res) => {
         console.log('mail', mail);
     } catch (error) {
         console.log('error', error);
+        return res.status(STATUS.INTERNAL_ERROR.code).send(`${STATUS.INTERNAL_ERROR.tag} ${error.message}`);
     }
 
-    await cart.clear(req.user._id);
+    try {
+        await cart.clear(req.user._id);
+    } catch (error) {
+        return res.status(error.status).send(error.description);
+    }
 
     const response = {
         redirect: '/'
@@ -48,33 +59,41 @@ const buyService = async (req, res) => {
 }
 
 const getCartService = async (req, res) => {
-    const user = req.user;
-    const cartDocument = await cart.getById(user._id);
+    try {
+        const user = req.user;
+        const cartDocument = await cart.getById(user._id);
 
-    const response = {
-        body: '../pages/cart',
-        data: {
-            products: cartDocument.products
+        const response = {
+            body: '../pages/cart',
+            data: {
+                products: cartDocument.products
+            }
         }
+        
+        return response;
+    } catch (error) {
+        return res.status(error.status).send(error.description);
     }
-    
-    return response;
 };
 
 const addProductToCartService = async (req, res) => {
     const consoleLogger = log4js.getLogger('default');
     consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
     
-    const user = req.user;
-    const productAdded = await cart.add(user._id, req.params.id);
-    const cartDocument = await cart.getById(user._id);
+    try {
+        const user = req.user;
+        const productAdded = await cart.add(user._id, req.params.id);
+        const cartDocument = await cart.getById(user._id);
 
-    const response = { 
-        body: '../pages/cart', 
-        data: { products: cartDocument.products }
+        const response = { 
+            body: '../pages/cart', 
+            data: { products: cartDocument.products }
+        }
+        
+        return res.render('main', response);
+    } catch (error) {
+        return res.status(error.status).send(error.description);
     }
-    
-    return res.render('main', response);
 }
 
 export {

@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import MongoDBContainer from '../containers/Mongodb.container.js';
 import CartSchema from '../schemas/Cart.schema.js';
 import ProductSchema from '../schemas/Product.schema.js';
+import CustomError from '../../utils/errors/CustomError.js';
+import { STATUS } from '../../utils/constants/api.constants.js';
 
 const collection = 'carts';
 
@@ -32,7 +34,11 @@ class CartsDao extends MongoDBContainer {
 
             return document;
         } catch (error) {
-            throw new Error(error.message);
+            throw new CustomError(
+                STATUS.INTERNAL_ERROR.code, 
+                `${STATUS.INTERNAL_ERROR.tag} Error while trying to get cart with id ${userId}`, 
+                error
+            );
         }
     }
 
@@ -50,7 +56,11 @@ class CartsDao extends MongoDBContainer {
                 
             return cartDocument;
         } catch (error) {
-            throw new Error(error.message);
+            throw new CustomError(
+                STATUS.INTERNAL_ERROR.code, 
+                `${STATUS.INTERNAL_ERROR.tag} Error while trying to add cart with user id ${userId} and product id ${productId}`,
+                error
+            );
         }
     }
 
@@ -60,7 +70,11 @@ class CartsDao extends MongoDBContainer {
 
             return removedElement;
         } catch (error) {
-            throw new Error(error.message);
+            throw new CustomError(
+                STATUS.INTERNAL_ERROR.code, 
+                `${STATUS.INTERNAL_ERROR.tag} Error while trying to clear cart with id ${userId}`, 
+                error
+            );
         }
     }
 }

@@ -15,7 +15,7 @@ class ApiFactory {
             break;
         
             default: 
-                throw new Error('datasource not valid')
+                throw new Error('Datasource not valid or missing')
             break;
         }
     }

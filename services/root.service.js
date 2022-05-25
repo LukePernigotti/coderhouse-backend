@@ -1,18 +1,22 @@
 import { products } from "./products.service.js";
 
 const getRootService = async (req, res) => {
-    const user = req.user;
+    try {
+        const user = req.user;
 
-    const response = { 
-        body: '../pages/home', 
-        data: { 
-            isAdmin: true,
-            user,
-            products: await products.getAll()
+        const response = { 
+            body: '../pages/home', 
+            data: { 
+                isAdmin: true,
+                user,
+                products: await products.getAll()
+            }
         }
-    }
 
-    return response;
+        return response;
+    } catch (error) {
+        return res.status(error.status).send(error.description);
+    }
 }
 
 const getInfoService = async (req, res) => {

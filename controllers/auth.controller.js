@@ -16,9 +16,15 @@ const postRegisterController = async (req, res, next) => {
     const consoleLogger = log4js.getLogger('default');
     consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
 
-    const response = await postRegisterService(req, res)
-
-    return res.redirect(response.redirect);
+    try {
+        const response = await postRegisterService(req, res)
+        return res.redirect(response.redirect);
+    } catch (error) {
+        const logger = log4js.getLogger('default');
+        logger.error(error.description);
+        
+        return res.status(error.status).send(error.description);
+    }
 }
 
 const getLoginController = (req, res) => {

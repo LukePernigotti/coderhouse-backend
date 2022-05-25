@@ -1,4 +1,6 @@
 import { transporter, mailOptions } from "../ethereal.js";
+import { STATUS } from "../utils/constants/api.constants.js";
+import CustomError from "../utils/errors/CustomError.js";
 
 const getRegisterService = (req, res) => {
     const response = {}
@@ -25,15 +27,19 @@ const postRegisterService = async (req, res) => {
     try {
         const mail = await transporter.sendMail(mailOptions);
         console.log('mail', mail);
+        
+        const response = {
+            redirect: '/'
+        }
+
+        return response;
     } catch (error) {
-        console.log('error', error);
+        throw new CustomError(
+            STATUS.INTERNAL_ERROR.code,
+            `${STATUS.INTERNAL_ERROR.tag} ${error.message}`,
+            error
+        );
     }
-
-    const response = {
-        redirect: '/'
-    }
-
-    return response;
 }
 
 const getLoginService = (req, res) => {

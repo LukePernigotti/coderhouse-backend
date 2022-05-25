@@ -10,13 +10,16 @@
     "forever": "forever start server.js --watch",
     "fork": "pm2 start server.js --name='ForkServer' --watch -- --port 8081",
     "cluster": "pm2 start server.js --name='ClusterServer' -i max --watch -- --port 8082",
-    "tailwind:css": "postcss src/styles/styles.css -o public/styles.css"
+    "tailwind:css": "postcss src/styles/styles.css -o public/styles.css",
+    "test-mocha-axios": "mocha test/mocha-axios.test.js",
+    "test-mocha-supertest": "mocha test/mocha-supertest.test.js"
   },
   "author": "Lucas Pernigotti",
   "license": "ISC",
   "dependencies": {
     "autocannon": "^7.8.1",
     "autoprefixer": "^10.4.2",
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.1.3",
     "compression": "^1.7.4",
@@ -48,6 +51,9 @@
     "twilio": "^3.76.1"
   },
   "devDependencies": {
-    "dotenv": "^16.0.0"
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.0",
+    "mocha": "^10.0.0",
+    "supertest": "^6.2.3"
   }
 }

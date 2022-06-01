@@ -8,12 +8,16 @@ import os from 'os';
 import cluster from 'cluster';
 import compression from 'compression';
 import log4js from 'log4js';
+import { graphqlHTTP } from 'express-graphql';
+
 
 import { config } from './db/config.js';
 import { httpServer, io, app, args } from './app.js';
 import router from './routers/app.routers.js';
 import { initChatController } from './controllers/chat.controller.js';
 import passport from './middlewares/passport.js';
+import graphqlSchema from './models/graphql/schema.graphql.js';
+import { add, deleteById, getAll, getById, updateById } from './models/graphql/resolvers.js';
 
 const PORT = args.port || 8080;
 // const __filename = fileURLToPath(import.meta.url);
@@ -28,6 +32,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(router);
 app.use(flash());
+
+app.use('/graphql', graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: {
+        getAll,
+        getById,
+        add,
+        updateById,
+        deleteById
+    },
+    graphiql: true
+}))
 
 app.use(express.static('./public'));
 

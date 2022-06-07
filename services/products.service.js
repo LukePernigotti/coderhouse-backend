@@ -5,19 +5,26 @@ import CustomError from '../utils/errors/CustomError.js';
 
 const products = new ProductsApi();
 
-const getProductsService = async (req, res) => {
+const getProductsService = async (ctx) => {
     let response;
-    if (req.params.id) {
-        response = await products.getById(req.params.id);
-    } else {
-        response = await products.getAll();
+    try {
+        if (ctx.request.params.id) {
+            response = await products.getById(ctx.request.params.id);
+        } else {
+            response = await products.getAll();
+        }
+    } catch (error) {
+        throw new CustomError(
+            error.status,
+            `${error.description}.`
+        );
     }
-    
+
     return response;
 };
 
-const addProductService = async (req, res) => {
-    const { name, description, price, stock, thumbnail, code } = req.body;
+const addProductService = async (ctx) => {
+    const { name, description, price, stock, thumbnail, code } = ctx.request.body;
     
     if (!name && !description && !price && !stock && !thumbnail && !code) {
         throw new CustomError(
@@ -34,8 +41,8 @@ const addProductService = async (req, res) => {
     return response;
 }
 
-const updateProductService = async (req, res) => {
-    const { name, description, price, stock, thumbnail, code } = req.body;
+const updateProductService = async (ctx) => {
+    const { name, description, price, stock, thumbnail, code } = ctx.request.body;
     
     if (!name && !description && !price && !stock && !thumbnail && !code) {
         throw new CustomError(
@@ -44,13 +51,13 @@ const updateProductService = async (req, res) => {
         );
     }
 
-    const response = await products.updateById(req.params.id, req.body);
+    const response = await products.updateById(ctx.request.params.id, ctx.request.body);
 
     return response;
 };
 
-const deleteProductService = async (req, res) => {
-    const response = await products.deleteById(req.params.id);
+const deleteProductService = async (ctx) => {
+    const response = await products.deleteById(ctx.request.params.id);
 
     return response;
 };

@@ -1,4 +1,4 @@
-import express from 'express';
+import Router from 'koa-router';
 
 import { 
     getProductsController,
@@ -7,7 +7,7 @@ import {
     deleteProductController
 } from '../../controllers/products.controller.js';
 
-const router = express.Router();
+const router = new Router();
 
 router.get('/:id?', getProductsController);
 

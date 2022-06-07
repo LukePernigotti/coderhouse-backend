@@ -47,11 +47,15 @@ class MongoDBContainer {
                 return document;
             }
         } catch (error) {
-            throw new CustomError(
-                STATUS.INTERNAL_ERROR.code,
-                `${STATUS.INTERNAL_ERROR.tag} ${error.message}`,
-                error
-            );
+            if (error.status == 404) {
+                throw new CustomError(error.status, error.description)
+            } else {
+                throw new CustomError(
+                    STATUS.INTERNAL_ERROR.code,
+                    `${STATUS.INTERNAL_ERROR.tag} ${error.message}`,
+                    error
+                );
+            }
         }
     }
 
@@ -113,7 +117,7 @@ class MongoDBContainer {
 
     async updateById(id, data) {
         try {
-            const response = await this.model.updateOne({ id }, { $set: data });
+            const response = await this.model.findByIdAndUpdate(id, { $set: data });
             return response;
         } catch (error) {
             throw new CustomError(

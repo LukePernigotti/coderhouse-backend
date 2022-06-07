@@ -1,8 +1,8 @@
 import { products } from "./products.service.js";
 
-const getRootService = async (req, res) => {
+const getRootService = async (ctx) => {
     try {
-        const user = req.user;
+        const user = ctx.req.user;
 
         const response = { 
             body: '../pages/home', 
@@ -15,11 +15,15 @@ const getRootService = async (req, res) => {
 
         return response;
     } catch (error) {
-        return res.status(error.status).send(error.description);
+        ctx.body = {
+            success: false,
+            message: error.description
+        };
+        ctx.status = error.status;
     }
 }
 
-const getInfoService = async (req, res) => {
+const getInfoService = async (ctx) => {
     const response = {
         body: '../pages/info',
         data: {

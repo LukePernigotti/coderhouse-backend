@@ -1,10 +1,10 @@
-import express from 'express';
+import Koa from 'koa';
 import { Server as IOServer } from 'socket.io';
 import { Server as HttpServer } from 'http';
 import minimist from 'minimist';
 const args = minimist(process.argv.splice(2));
 
-const app = express();
+const app = new Koa();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 

@@ -1,35 +1,11 @@
-import knex from 'knex';
-import dotenv from 'dotenv';
-
-dotenv.config();
+const { DB_PASSWORD } = require("../env.config");
 
 const config = {
-    mysqlConfig: {
-        client: 'mysql',
-        connection: {
-            host: '127.0.0.1',
-            user: 'root',
-            password: '',
-            database: 'ecommerce'
-        }
-    },
-    sqlite3Config: {
-        client: 'sqlite3',
-        connection: {
-            filename: './db/ecommerce.sqlite'
-        },
-        useNullAsDefault: true
-    },
     mongodb: {
-        connectTo: (database) => `mongodb+srv://admin:${process.env.DB_PASSWORD}@coderhouseecommerceclus.ct8zd.mongodb.net/${database}?retryWrites=true&w=majority`
+        connectTo: (database) => `mongodb+srv://admin:${DB_PASSWORD}@coderhouseecommerceclus.ct8zd.mongodb.net/${database}?retryWrites=true&w=majority`
     }
 }
 
-const mysqlKnex = () => knex(config.mysqlConfig)
-const sqlite3Knex = () => knex(config.sqlite3Config)
-
-export {
-    mysqlKnex,
-    sqlite3Knex,
+module.exports = {
     config
 };

@@ -1,7 +1,7 @@
-import { STATUS } from '../../utils/constants/api.constants.js';
-import CustomError from '../../utils/errors/CustomError.js';
-import MongoDBContainer from '../containers/Mongodb.container.js';
-import ProductSchema from '../schemas/Product.schema.js';
+const { STATUS } = require('../../utils/constants/api.constants.js');
+const CustomError = require('../../utils/errors/CustomError.js');
+const MongoDBContainer = require('../containers/Mongodb.container.js');
+const ProductSchema = require('../schemas/Product.schema.js');
 
 const collection = 'products';
 
@@ -19,4 +19,4 @@ class ProductsDao extends MongoDBContainer {
     }
 }
 
-export default ProductsDao;
+module.exports = ProductsDao;

@@ -11,6 +11,14 @@ const STATUS = {
     tag: '[BAD REQUEST]',
     code: 400,
   },
+  UNAUTHORIZED: {
+    tag: '[UNAUTHORIZED]',
+    code: 401,
+  },
+  FORBIDDEN: {
+    tag: '[FORBIDDEN]',
+    code: 403,
+  },
   NOT_FOUND: {
     tag: '[NOT FOUND]',
     code: 404,
@@ -21,4 +29,4 @@ const STATUS = {
   },
 };
 
-export { STATUS }
+module.exports = { STATUS }

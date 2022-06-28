@@ -1,5 +1,5 @@
-import assert from 'assert/strict';
-import { describe } from 'mocha';
+const assert = require('assert/strict');
+const { describe } = require('mocha');
 
 describe('Products API test', async () => {
     it('Should get all products', async () => {

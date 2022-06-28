@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 const getAllProducts = async () => {
     const response = await axios.get('http://localhost:8080/api/products');
@@ -25,7 +25,7 @@ const deleteProduct = async (id) => {
     return response;
 }
 
-export {
+module.exports = {
     getAllProducts,
     getProduct,
     addProduct,

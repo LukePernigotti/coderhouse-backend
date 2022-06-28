@@ -1,7 +1,7 @@
-import passport from 'passport';
-import passportLocal from 'passport-local';
-import bcrypt from 'bcrypt';
-import UsersDao from '../models/daos/Users.dao.js';
+const passport = require('passport');
+const passportLocal = require('passport-local');
+const bcrypt = require('bcrypt');
+const UsersDao = require('../models/daos/Users.dao.js');
 
 const LocalStrategy = passportLocal.Strategy;
 const User = new UsersDao();
@@ -40,9 +40,7 @@ passport.use('register', new LocalStrategy(
             name: req.body.name,
             address: req.body.address,
             age: req.body.age,
-            intPrefix: req.body.intPrefix,
             phone: req.body.phone,
-            avatar: `${req.body.name.replace(' ', '-')}-${req.body.phone}.png`
         }
 
         User.createUser(newUser)
@@ -57,4 +55,4 @@ passport.use('register', new LocalStrategy(
     }
 ));
 
-export default passport;
+module.exports = passport;

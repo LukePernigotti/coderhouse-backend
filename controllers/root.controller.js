@@ -1,6 +1,6 @@
-import log4js from 'log4js';
+const log4js = require('log4js');
 
-import { getInfoService, getRootService } from '../services/root.service.js';
+const { getInfoService, getRootService } = require('../services/root.service.js');
 
 const getRootController = async (req, res) => {
     const consoleLogger = log4js.getLogger('default');
@@ -16,7 +16,7 @@ const getInfoController = async (req, res) => {
     consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
 
     const response = await getInfoService(req, res);
-    return res.render('main', response);
+    return res.render('info.pug', response);
 }
 
 const logoutController = (req, res, next) => {
@@ -33,7 +33,7 @@ const logoutController = (req, res, next) => {
     });
 }
 
-export { 
+module.exports = {
     getRootController,
     getInfoController,
     logoutController

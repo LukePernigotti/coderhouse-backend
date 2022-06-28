@@ -1,32 +1,38 @@
-import mongoose from 'mongoose';
-import { config } from '../../db/config.js'
-import { STATUS } from '../../utils/constants/api.constants.js';
-import CustomError from '../../utils/errors/CustomError.js';
-
-const { INTERNAL_ERROR, NOT_FOUND, BAD_REQUEST } = STATUS;
+const mongoose = require('mongoose');
+const { config } = require('../../db/config.js');
+const { STATUS } = require('../../utils/constants/api.constants.js');
+const CustomError = require('../../utils/errors/CustomError.js');
+const { NODE_ENV } = require('../../env.config.js');
 
 try {
-    mongoose.connect(config.mongodb.connectTo('ecommerce'));
+    mongoose.connect(config.mongodb.connectTo(NODE_ENV == 'production' ? 'prod' : 'dev'));
 } catch (error) {
-    console.log(error.message);
+    console.log('Error while trying to connect to DB', error.message);
 }
 class MongoDBContainer {
-    static instance;
     constructor(collection, Schema) {
         this.model = mongoose.model(collection, Schema);
     }
 
+    /**
+     * 
+     * @returns an array of objects
+     */
     async getAll(filter = {}) {
+        let documents;
         try {
-            const documents = await this.model.find(filter, { __v: 0 }).lean();
+            documents = await this.model.find(filter, { __v: 0 }).lean();
             if (documents.length > 0) return documents;
             
-            throw new CustomError(
-                STATUS.NOT_FOUND.code,
-                `${STATUS.NOT_FOUND.tag} There are no documents in the collection`,
-                error
-            );
+            throw null;
         } catch (error) {
+            if (documents.length === 0) {
+                throw new CustomError(
+                    STATUS.NOT_FOUND.code,
+                    `${STATUS.NOT_FOUND.tag} There are no documents in the collection`,
+                    error
+                )
+            }
             throw new CustomError(
                 STATUS.INTERNAL_ERROR.code,
                 `${STATUS.INTERNAL_ERROR.tag} ${error.message}`,
@@ -35,18 +41,26 @@ class MongoDBContainer {
         }
     }
 
+    /**
+     * 
+     * @param id id of the item to get
+     * @returns get an element from the DB
+     */
     async getById(id) {
+        let document;
         try {
-            const document = await this.model.findById(id, { __v: 0 }).lean();
+            document = await this.model.findById(id, { __v: 0 }).lean();
+            if (!document) {
+                throw null;
+            } 
+            return document;
+        } catch (error) {
             if (!document) {
                 throw new CustomError(
                     STATUS.NOT_FOUND.code,
                     `${STATUS.NOT_FOUND.tag} Resource with id ${id} does not exist in our records`
                 );
-            } else {
-                return document;
             }
-        } catch (error) {
             throw new CustomError(
                 STATUS.INTERNAL_ERROR.code,
                 `${STATUS.INTERNAL_ERROR.tag} ${error.message}`,
@@ -55,27 +69,11 @@ class MongoDBContainer {
         }
     }
 
-    async fiterById(ids) {
-        try {
-            const documents = await this.model.find({ '_id': { $in: ids } })
-            
-            if (!documents) {
-                throw new CustomError(
-                    STATUS.NOT_FOUND.code,
-                    `${STATUS.NOT_FOUND.tag} Resource with id ${id} does not exist in our records`
-                );
-            }
-
-            return documents;
-        } catch (error) {
-            throw new CustomError(
-                STATUS.INTERNAL_ERROR.code,
-                `${STATUS.INTERNAL_ERROR.tag} ${error.message}`,
-                error
-            );
-        }
-    }
-
+    /**
+     * 
+     * @param resourceItem data object
+     * @returns the item created (e.g. a user object)
+     */
     async createItem(resourceItem) {
         try {
             const newItem = new this.model(resourceItem);
@@ -90,6 +88,11 @@ class MongoDBContainer {
         }
     }
 
+    /**
+     * 
+     * @param item object to add to the DB
+     * @returns the object added
+     */
     async add(item) {
         try {
             const document = await this.model.create(item);
@@ -111,9 +114,15 @@ class MongoDBContainer {
         }
     }
 
+    /**
+     * 
+     * @param id ID of the element to update
+     * @param data properties to update
+     * @returns item before update
+     */
     async updateById(id, data) {
         try {
-            const response = await this.model.updateOne({ id }, { $set: data });
+            const response = await this.model.findOneAndUpdate({ id }, { $set: data });
             return response;
         } catch (error) {
             throw new CustomError(
@@ -124,6 +133,11 @@ class MongoDBContainer {
         }
     }
 
+    /**
+     * 
+     * @param id ID of the item to delete
+     * @returns removes an item from the DB
+     */
     async deleteById(id) {
         try {
             const response = await this.model.findOneAndDelete({ _id: id });
@@ -138,4 +152,4 @@ class MongoDBContainer {
     }
 }
 
-export default MongoDBContainer;
+module.exports = MongoDBContainer;

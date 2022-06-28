@@ -1,16 +1,16 @@
-import express from 'express';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
+const express = require('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
-import { app } from '../app.js';
-import { config } from '../db/config.js';
-import cartRoutes from './api/cart.routes.js';
-import productsRoutes from './api/products.routes.js';
-import authRoutes from './api/auth/auth.routes.js';
-import randomRoutes from './api/random/random.routes.js';
-import authMiddleware from '../middlewares/auth.js';
-import passport from '../middlewares/passport.js';
-import { getInfoController, getRootController, logoutController } from '../controllers/root.controller.js';
+const { app } = require('../app.js');
+const { config } = require('../db/config.js');
+const cartRoutes = require('./api/cart.routes.js');
+const productsRoutes = require('./api/products.routes.js');
+const ordersRoutes = require('./api/orders.routes.js');
+const authRoutes = require('./auth/auth.routes.js');
+const authMiddleware = require('../middlewares/auth.js');
+const passport = require('../middlewares/passport.js');
+const { getInfoController, getRootController, logoutController } = require('../controllers/root.controller.js');
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ app.use(session({
 
 router.use('/api/cart', cartRoutes);
 router.use('/api/products', productsRoutes);
-router.use('/api/random', randomRoutes);
+router.use('/api/', ordersRoutes);
 router.use('/auth', authRoutes);
 
 router.use(passport.initialize());
@@ -44,4 +44,4 @@ router.get('/info', getInfoController);
 
 router.get('/logout', authMiddleware, logoutController);
 
-export default router;
+module.exports = router;

@@ -1,4 +1,8 @@
-import { products } from "./products.service.js";
+const minimist = require('minimist');
+const os = require('os');
+
+const { args } = require('../app.js');
+const { products } = require('./products.service.js');
 
 const getRootService = async (req, res) => {
     try {
@@ -19,25 +23,22 @@ const getRootService = async (req, res) => {
     }
 }
 
-const getInfoService = async (req, res) => {
+const getInfoService = (req, res) => {
     const response = {
-        body: '../pages/info',
-        data: {
-            entryArgs: args,
-            platform: process.platform,
-            nodeVersion: process.version,
-            rss: process.memoryUsage().rss,
-            path: process.argv[1],
-            pid: process.pid,
-            cwd: process.cwd(),
-            cpusLength: os.cpus().length
-        }
+        entryArgs: args,
+        platform: process.platform,
+        nodeVersion: process.version,
+        rss: process.memoryUsage().rss,
+        path: process.argv[1],
+        pid: process.pid,
+        cwd: process.cwd(),
+        cpusLength: os.cpus().length
     }
 
     return response;
 }
 
-export {
+module.exports = {
     getRootService,
     getInfoService
 }

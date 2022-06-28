@@ -1,13 +1,13 @@
-import express from 'express';
-import supertest from 'supertest';
-import { expect } from 'chai';
-import { describe } from 'mocha';
-import mongoose from 'mongoose';
-import flash from 'connect-flash';
+const express = require('express');
+const supertest = require('supertest');
+const { expect } = require('chai');
+const { describe } = require('mocha');
+const mongoose = require('mongoose');
+const flash = require('connect-flash');
 
-import { httpServer, app, args } from '../app.js';
-import { config } from '../db/config.js';
-import router from '../routers/app.routers.js';
+const { httpServer, app, args } = require('../app.js');
+const { config } = require('../db/config.js');
+const router = require('../routers/app.routers.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

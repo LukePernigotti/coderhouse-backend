@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-import MongoDBContainer from '../containers/Mongodb.container.js';
-import CartSchema from '../schemas/Cart.schema.js';
-import ProductSchema from '../schemas/Product.schema.js';
-import CustomError from '../../utils/errors/CustomError.js';
-import { STATUS } from '../../utils/constants/api.constants.js';
+const MongoDBContainer = require('../containers/Mongodb.container.js');
+const CartSchema = require('../schemas/Cart.schema.js');
+const ProductSchema = require('../schemas/Product.schema.js');
+const CustomError = require('../../utils/errors/CustomError.js');
+const { STATUS } = require('../../utils/constants/api.constants.js');
 
 const collection = 'carts';
 
@@ -79,4 +79,4 @@ class CartsDao extends MongoDBContainer {
     }
 }
 
-export default CartsDao
+module.exports = CartsDao;

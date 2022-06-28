@@ -1,7 +1,7 @@
-import MongoDBContainer from '../containers/Mongodb.container.js';
-import UserSchema from '../schemas/User.schema.js';
-import CustomError from '../../utils/errors/CustomError.js';
-import { STATUS } from '../../utils/constants/api.constants.js';
+const MongoDBContainer = require('../containers/Mongodb.container.js');
+const UserSchema = require('../schemas/User.schema.js');
+const CustomError = require('../../utils/errors/CustomError.js');
+const { STATUS } = require('../../utils/constants/api.constants.js');
 
 const collection = 'User';
 
@@ -78,4 +78,4 @@ class UsersDao extends MongoDBContainer {
     }
 }
 
-export default UsersDao;
+module.exports = UsersDao;

@@ -1,6 +1,6 @@
-import log4js from 'log4js';
+const log4js = require('log4js');
 
-import { getLoginService, getRegisterService, postLoginService, postRegisterService } from '../services/auth.service.js';
+const { getLoginService, getRegisterService, postLoginService, postRegisterService } = require('../services/auth.service.js');
 
 const getRegisterController = (req, res) => {
     const consoleLogger = log4js.getLogger('default');
@@ -34,7 +34,7 @@ const getLoginController = (req, res) => {
     const response = getLoginService(req, res);
 
     if (response.redirect) return res.redirect(response.redirect)
-    return res.render('main', response);
+    return res.render('main.ejs', response);
 }
 
 const postLoginController = (req, res, next) => { 
@@ -46,7 +46,7 @@ const postLoginController = (req, res, next) => {
     return res.redirect(response.redirect);
 };
 
-export {
+module.exports = {
     getLoginController,
     postLoginController,
     postRegisterController,

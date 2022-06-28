@@ -1,6 +1,6 @@
-import { transporter, mailOptions } from "../ethereal.js";
-import { STATUS } from "../utils/constants/api.constants.js";
-import CustomError from "../utils/errors/CustomError.js";
+const { transporter, mailOptions } = require('../ethereal.js');
+const { STATUS } = require('../utils/constants/api.constants.js');
+const CustomError = require('../utils/errors/CustomError.js');
 
 const getRegisterService = (req, res) => {
     const response = {}
@@ -26,7 +26,6 @@ const postRegisterService = async (req, res) => {
 
     try {
         const mail = await transporter.sendMail(mailOptions);
-        console.log('mail', mail);
         
         const response = {
             redirect: '/'
@@ -60,7 +59,7 @@ const postLoginService = (req, res) => {
     return response;
 }
 
-export { 
+module.exports = {
     getRegisterService, 
     postRegisterService, 
     getLoginService, 

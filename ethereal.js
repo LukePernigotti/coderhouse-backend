@@ -1,5 +1,5 @@
-import { createTransport } from 'nodemailer';
-import dotenv from 'dotenv';
+const { createTransport } = require('nodemailer');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -21,4 +21,4 @@ const mailOptions = {
     // html: '<h1>This is an email</h1>'
 }
 
-export { transporter, mailOptions };
+module.exports = { transporter, mailOptions };

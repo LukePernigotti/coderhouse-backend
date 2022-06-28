@@ -1,6 +1,7 @@
 const ProductsDao = require('./daos/Products.dao.js');
 const CartsDao = require('./daos/Carts.dao.js');
 const OrdersDao = require('./daos/Orders.dao.js');
+const { DATASOURCE } = require('../env.config.js');
 
 class ApiFactory {
     static ApiTypes = {
@@ -10,7 +11,7 @@ class ApiFactory {
     }
 
     static getAPI(type) {
-        switch (process.env.DATASOURCE) {
+        switch (DATASOURCE) {
             case 'mongodb':
                 if (type == 'products') return ProductsDao;
                 else if (type == 'carts') return CartsDao;

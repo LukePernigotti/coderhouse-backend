@@ -1,7 +1,7 @@
 const ProductsDao = require('./daos/Products.dao.js');
 const CartsDao = require('./daos/Carts.dao.js');
 const OrdersDao = require('./daos/Orders.dao.js');
-const { DATASOURCE } = require('../env.config.js'); 
+const { DATASOURCE } = require('../env.config.js');
 
 class ApiFactory {
     static ApiTypes = {

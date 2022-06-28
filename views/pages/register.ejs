@@ -14,6 +14,10 @@
                 <input id="password" type="text" name="password" required>
             </div>
             <div class="mb-3">
+                <label for="password-dup">Repeat password:</label>
+                <input id="password-dup" type="text" name="password-dup" required>
+            </div>
+            <div class="mb-3">
                 <label for="name">Name:</label>
                 <input id="name" type="text" name="name" required>
             </div>
@@ -27,14 +31,7 @@
             </div>
             <div class="mb-3">
                 <label for="phone">Phone:</label>
-                <div class="intPrefix">
-                    <input id="intPrefix" type="text" name="intPrefix" value="54" required>
-                </div>
                 <input id="phone" type="text" name="phone" required>
-            </div>
-            <div class="mb-3">
-                <label for="avatar">Avatar:</label>
-                <input type="file" name="avatar" id="avatar">
             </div>
             <% if (data.error) { %>
                 <p><%= data.error %></p>

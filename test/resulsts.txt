@@ -1,0 +1,9 @@
+✔ Should get a 200 response (1794ms)
+✔ Should get more than 0 products (165ms)
+✔ Should add a product (199ms)
+✔ Should get a product with the right format (167ms)
+✔ Should update a product (175ms)
+✔ Should delete a product (326ms)
+
+
+6 passing (5s)

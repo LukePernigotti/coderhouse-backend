@@ -1,58 +1,72 @@
-const { CartApi } = require('../models/index');
+const log4js = require('log4js');
 
-const cart = new CartApi();
+const { addProductToCartService, buyService, getCartService, updateCartService, deleteCartService } = require('../services/cart.service.js');
 
-const createCartController = async (req, res) => {
-    const response = await cart.createCart();
-    if (response.error) return res.status(404).send(response.error);
-    return res.json({ id: response });
-};
-
-const deleteCartController = async (req, res) => {
-    const { id } = req.params;
-    if (!id) return res.status(400).send(`id is missing from params: ${JSON.stringify(req.params)}`);
-    const response = await cart.deleteCart(id);
-
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
-};
+const buyController = async (req, res) => {
+    try {
+        const response = await buyService(req, res);
+    
+        return res.json(response);
+    } catch (error) {
+        return res.status(error.status).send(error.description);
+    }
+}
 
 const getCartController = async (req, res) => {
-    const { id } = req.params
-    if (!id) return res.status(400).send(`id is missing from params: ${JSON.stringify(req.params)}`);
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
     
-    const response = await cart.getCart(id);
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
-};
-
-const addProductController = async (req, res) => {
-    const { id: cartId } = req.params;
-    const { productId } = req.body;
-    if (!cartId && !productId) 
-        return res.status(400).send(`Cart id or/and product id missing from body or params.`);
+    try {
+        const response = await getCartService(req, res)
     
-    const response = await cart.addProduct(cartId, productId);
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
+        return res.json(response);
+    } catch (error) {
+        return res.status(error.status).send(error.description);
+    }
 };
 
-const removeProductController = async (req, res) => {
-    const { id: cartId, id_prod: productId } = req.params;
+const addProductToCartController = async (req, res) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+    
+    try {
+        const response = await addProductToCartService(req, res);
+        
+        return res.json(response);
+    } catch (error) {
+        return res.status(error.status).send(error.description);
+    }
+}
 
-    if (!cartId || !productId) 
-        return res.status(400).send(`Cart id or/and product id missing from params.`);
+const updateCartController = async (req, res) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+    
+    try {
+        const response = await updateCartService(req, res)
+    
+        return res.json(response);
+    } catch (error) {
+        return res.status(error.status).send(error.description);
+    }
+}
 
-    const response = await cart.removeProduct(cartId, productId);
-    if (response.error) return res.status(404).send(response.error);
-    return res.json(response);
-};
+const deleteCartController = async (req, res) => {
+    const consoleLogger = log4js.getLogger('default');
+    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+
+    try {
+        const response = await deleteCartService(req, res);
+        return res.json(response);
+    } catch (error) {        
+        return res.status(error.status).send(error.description);
+    }
+}
 
 module.exports = {
-    cart,
-    createCartController,
-    deleteCartController,
+    buyController,
     getCartController,
-    addProductController,
-    removeProductController,
+    addProductToCartController,
+    updateCartController,
+    deleteCartController
 }

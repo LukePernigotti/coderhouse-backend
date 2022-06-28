@@ -1,41 +1,58 @@
-import express from 'express';
-import log4js from 'log4js';
+const express = require('express');
 
-import { 
+const { 
     getProductsController,
+    getCategoryController,
     addProductController,
     updateProductController,
     deleteProductController
-} from '../../controllers/products.controller.js';
+} = require('../../controllers/products.controller.js');
 
 const router = express.Router();
 
-router.get('/:id?', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+/**
+ * [GET] '/api/products/' Get an array of products
+ * params nulll
+ * body null
+ */
+router.get('/', getProductsController);
 
-    getProductsController(req, res)
-});
+/**
+ * [GET] '/api/products/:category' Get an array of products
+ * params null
+ * body null
+ */
+router.get('/:category', getCategoryController);
 
-router.post('/', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+/**
+ * [POST] '/api/products/' Saves a product into the DB
+ * params null
+ * body {string} name
+ * body {string} description
+ * body {number} price
+ * body {number} stock
+ * body {string} thumbnail
+ * body {string} category
+ */
+router.post('/', addProductController);
 
-    addProductController(req, res)
-});
+/**
+ * [PUT] '/api/products/:id' Get an array of products
+ * params id - ID of the product
+ * body {string} name
+ * body {string} description
+ * body {number} price
+ * body {number} stock
+ * body {string} thumbnail
+ * body {string} category
+ */
+router.put('/:id', updateProductController);
 
-router.put('/:id', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
+/**
+ * [DELETE] '/api/products/:id' Get an array of products
+ * params id - ID of the product
+ * body null
+ */
+router.delete('/:id', deleteProductController);
 
-    updateProductController(req, res);
-});
-
-router.delete('/:id', (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
-
-    deleteProductController(req, res);
-});
-
-export default router;
+module.exports = router;

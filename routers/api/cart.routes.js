@@ -1,81 +1,36 @@
-import express from 'express';
-import log4js from 'log4js';
-import twilio from 'twilio';
-
-import { transporter, mailOptions } from "../../ethereal.js";
-import { CartsApi } from '../../models/index.js';
+const express = require('express');
+const { buyController, getCartController, addProductToCartController, updateCartController, deleteCartController } = require('../../controllers/cart.controller.js');
 
 const router = express.Router();
 
-const cart = new CartsApi();
+/**
+ * [POST] '/api/cart/buy' Buy products added in the cart
+ * params null
+ * body null
+ */
+router.post('/buy', buyController);
 
+/**
+ * [GET] '/api/cart/' Get cart
+ * params null
+ * body null
+ */
+router.get('/', getCartController);
 
-router.post('/buy', async (req, res) => {
-    const cartDocument = await cart.get(req.user._id);
+/**
+ * [POST] '/api/cart/' Buy products added in the cart
+ * params id - ID of the product
+ * body null
+ */
+router.post('/:id', addProductToCartController)
 
-    const accountSid = 'AC452f166aea5b749ecd49cf636e9cfaba'
-    const authToken = '125922fd13e0009ba70c1ac50e0a2488'
+router.put('/:id', updateCartController);
 
-    const client = twilio(accountSid, authToken);
+/**
+ * [DELETE] '/api/cart/:id' Delete cart
+ * params id - ID of the cart
+ * body null
+ */
+router.delete('/:id', deleteCartController);
 
-    try {
-        const message = await client.messages.create({
-            // from: 'whatsapp:+15076930579',
-            from: 'whatsapp:+5491156348721',
-            to: 'whatsapp:+14155238886',
-            body: `New order: ${cartDocument.products.map(product => product + ', ')}.
-            Your order is processing`,
-        })
-    } catch (error) {
-        console.log(error)
-    }
-
-    mailOptions.subject = 'New order';
-    mailOptions.html = `<h1>These are the products you bought:</h1>
-    <ul>
-        ${cartDocument.products.map(product => `<li>${product.name}</li>`)}
-    </ul>
-    
-    <p>Your order is being processed. Thank you for your patience.</p>`;
-
-    try {
-        const mail = await transporter.sendMail(mailOptions);
-        console.log('mail', mail);
-    } catch (error) {
-        console.log('error', error);
-    }
-
-    await cart.clear(req.user._id);
-
-    return res.redirect('/')
-})
-
-router.get('/', async (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
-    const user = req.user;
-    const cartDocument = await cart.get(user._id);
-
-    return res.render('main', { 
-        body: '../pages/cart',
-        data: { products: cartDocument.products }
-    });
-})
-
-router.post('/:id', async (req, res) => {
-    const consoleLogger = log4js.getLogger('default');
-    consoleLogger.info(`Access to the path ${req.originalUrl} using method ${req.method}.`);
-    const user = req.user;
-    
-    const productAdded = await cart.add(user._id, req.params.id);
-    
-    const cartDocument = await cart.get(user._id);
-
-    // return res.redirect('/')
-    return res.render('main', { 
-        body: '../pages/cart', 
-        data: { products: cartDocument.products }
-    });
-})
-
-export default router;
+module.exports = router;

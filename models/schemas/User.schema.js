@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
@@ -16,10 +16,8 @@ const UserSchema = new Schema({
   name: { type: String, required: true },
   address: { type: String, required: true },
   age: { type: Number, required: true },
-  intPrefix: { type: Number, required: true },
   phone: { type: Number, required: true },
-  avatar: { type: String, required: true },
 });
 UserSchema.index({ email: 1 });
 
-export default UserSchema;
+module.exports = UserSchema;

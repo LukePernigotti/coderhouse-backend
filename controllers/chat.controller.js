@@ -1,7 +1,7 @@
-import { normalize, schema } from 'normalizr';
-import log4js from 'log4js';
-import { io } from '../app.js';
-import ChatApi from '../models/chat/chat.api.js';
+const { normalize, schema } = require('normalizr');
+const log4js = require('log4js');
+const { io } = require('../app.js');
+const ChatApi = require('../models/chat/chat.api.js');
 
 const chatApi = new ChatApi();
 
@@ -19,7 +19,6 @@ async function getNormalizedMessages() {
 
 const initChatController = async (socket) => {
     try {
-        // const chatMessages = await knex.from(tableName).select('*');
         io.sockets.emit('chat-server:loadMessages', await getNormalizedMessages());
     } catch (error) {
         const logger = log4js.getLogger('default');
@@ -30,14 +29,7 @@ const initChatController = async (socket) => {
     socket.on('chat-client:newMessage', async (message) => {
         await chatApi.add(message)
         io.sockets.emit('chat-server:newMessage', await getNormalizedMessages());
-
-        // try {
-        //     await knex(tableName).insert(message); // returns id
-        //     io.sockets.emit('chat-server:newMessage', message);
-        // } catch (error) {
-        //     throw new Error(error.message);
-        // }
     })
 };
 
-export { initChatController }
+module.exports = { initChatController }

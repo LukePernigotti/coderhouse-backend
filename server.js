@@ -44,7 +44,7 @@ app.use((req, res) => {
 });
 
 
-httpServer.listen(PORT, async (error) => {
+httpServer.listen(PORT, '0.0.0.0', async (error) => {
     console.log(`[${process.pid}] => Server is up and running on port: ${PORT}`);
 });
 

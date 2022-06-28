@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "set NODE_ENV=local&& node -r dotenv/config server.js",
-    "start": "set NODE_ENV=production&& node -r dotenv/config server.js",
-    "build": "node -r dotenv/config server.js",
+    "start": "node -r dotenv/config server.js",
+    "build": "set NODE_ENV=production&&node -r dotenv/config server.js",
     "nodemon": "set NODE_ENV=local && nodemon -r dotenv/config server.js",
     "forever": "forever start server.js --watch",
     "fork": "pm2 start server.js --name='ForkServer' --watch -- --port 8081",
